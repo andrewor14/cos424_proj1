@@ -48,7 +48,7 @@ def main():
         if value > 0:
           if vocabs[j] not in examples_by_word:
             examples_by_word[vocabs[j]] = 0
-          examples_by_word[vocabs[j]] += 1
+          examples_by_word[vocabs[j]] += value
   print "Using %s features: %s..." % (num_features, ", ".join(vocabs[:15]))
   print "%s features are used in positive reviews: %s..." %\
     (len(pos_examples_by_word), ", ".join(pos_examples_by_word.keys()[:10]))
@@ -60,7 +60,7 @@ def main():
     examples_by_word = pos_examples_by_word if label == 1 else neg_examples_by_word
     num_train_examples = num_train_positive if label == 1 else num_train_negative
     word_count = examples_by_word[word] if word in examples_by_word else 0
-    return float(word_count + 1) / (num_train_examples + 2)
+    return float(word_count + 1) / (num_train_examples + num_features)
 
   # Do some classifying!
   num_test_correct = 0

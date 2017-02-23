@@ -62,7 +62,7 @@ def clean_word(word):
   return word
 
 def clean_words(tokens):
-  return [clean_word(w) for w in tokens if w not in stop_words and w.isalpha()]
+  return [clean_word(w) for w in tokens if w.lower() not in stop_words and w.isalpha()]
 
 def tokenize_corpus(path, train=True):
   classes = []

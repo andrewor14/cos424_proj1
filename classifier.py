@@ -45,7 +45,7 @@ def main():
         "expected %d features in line %d, got %d".format(num_features, line_num, len(vector))
       examples_by_word = pos_examples_by_word if label == 1 else neg_examples_by_word
       for j, value in enumerate(vector):
-        if value == 1:
+        if value > 0:
           if vocabs[j] not in examples_by_word:
             examples_by_word[vocabs[j]] = 0
           examples_by_word[vocabs[j]] += 1

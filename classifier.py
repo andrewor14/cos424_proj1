@@ -31,35 +31,49 @@ def main():
   with open(args.vocab, "r") as vocab_data:
     for line in vocab_data.readlines():
       vocabs += [clean_word(line.decode("utf-8-sig"))]
-
-  # Build up word counts by label
   num_features = len(vocabs)
-  pos_examples_by_word = {}
-  neg_examples_by_word = {}
+
+  # Build up document frequency
+  documents_by_word = {}
   with open(args.bow, "r") as bow_data:
     for i, line in enumerate(bow_data.readlines()):
-      line_num = i + 1
       vector = [int(v) for v in line.split(",")]
-      label = train_labels[i]
       assert len(vector) == num_features,\
-        "expected %d features in line %d, got %d".format(num_features, line_num, len(vector))
-      examples_by_word = pos_examples_by_word if label == 1 else neg_examples_by_word
+        "expected %d features in line %d, got %d".format(num_features, i + 1, len(vector))
       for j, value in enumerate(vector):
         if value > 0:
-          if vocabs[j] not in examples_by_word:
-            examples_by_word[vocabs[j]] = 0
-          examples_by_word[vocabs[j]] += value
+          word = vocabs[j]
+          if word not in documents_by_word:
+            documents_by_word[word] = 0
+          documents_by_word[word] += 1
+
+  # Build up word counts by label, taking into account TF * IDF
+  pos_counts_by_word = {}
+  neg_counts_by_word = {}
+  with open(args.bow, "r") as bow_data:
+    for i, line in enumerate(bow_data.readlines()):
+      vector = [int(v) for v in line.split(",")]
+      label = train_labels[i]
+      counts_by_word = pos_counts_by_word if label == 1 else neg_counts_by_word
+      for j, value in enumerate(vector):
+        if value > 0:
+          word = vocabs[j]
+          if word not in counts_by_word:
+            counts_by_word[word] = 0
+          tf = value
+          idf = float(num_train_examples) / documents_by_word[word]
+          counts_by_word[word] += tf * idf
   print "Using %s features: %s..." % (num_features, ", ".join(vocabs[:15]))
   print "%s features are used in positive reviews: %s..." %\
-    (len(pos_examples_by_word), ", ".join(pos_examples_by_word.keys()[:10]))
+    (len(pos_counts_by_word), ", ".join(pos_counts_by_word.keys()[:10]))
   print "%s features are used in negative reviews: %s..." %\
-    (len(neg_examples_by_word), ", ".join(neg_examples_by_word.keys()[:10]))
+    (len(neg_counts_by_word), ", ".join(neg_counts_by_word.keys()[:10]))
 
   # Helper method to compute likelihood of a word given a label
   def compute_likelihood(word, label):
-    examples_by_word = pos_examples_by_word if label == 1 else neg_examples_by_word
+    counts_by_word = pos_counts_by_word if label == 1 else neg_counts_by_word
     num_train_examples = num_train_positive if label == 1 else num_train_negative
-    word_count = examples_by_word[word] if word in examples_by_word else 0
+    word_count = counts_by_word[word] if word in counts_by_word else 0
     return float(word_count + 1) / (num_train_examples + num_features)
 
   # Do some classifying!

@@ -31,21 +31,36 @@ def main():
   with open(args.vocab, "r") as vocab_data:
     for line in vocab_data.readlines():
       vocabs += [clean_word(line.decode("utf-8-sig"))]
-  num_features = len(vocabs)
 
   # Build up document frequency
-  documents_by_word = {}
+  total_documents_by_word = {}
+  pos_documents_by_word = {}
+  neg_documents_by_word = {}
   with open(args.bow, "r") as bow_data:
     for i, line in enumerate(bow_data.readlines()):
+      label = train_labels[i]
       vector = [int(v) for v in line.split(",")]
-      assert len(vector) == num_features,\
-        "expected %d features in line %d, got %d".format(num_features, i + 1, len(vector))
+      assert len(vector) == len(vocabs),\
+        "expected %d words in line %d, got %d".format(len(vocabs), i + 1, len(vector))
       for j, value in enumerate(vector):
         if value > 0:
           word = vocabs[j]
-          if word not in documents_by_word:
-            documents_by_word[word] = 0
-          documents_by_word[word] += 1
+          docs_by_word = pos_documents_by_word if label == 1 else neg_documents_by_word
+          if word not in docs_by_word:
+            docs_by_word[word] = 0
+          docs_by_word[word] += 1
+          if word not in total_documents_by_word:
+            total_documents_by_word[word] = 0
+          total_documents_by_word[word] += 1
+
+  # Filter out bottom N% of features in terms of CPD score
+  def computeCPD(word):
+    pos_freq = pos_documents_by_word[word] if word in pos_documents_by_word else 0
+    neg_freq = neg_documents_by_word[word] if word in neg_documents_by_word else 0
+    return float(abs(pos_freq - neg_freq)) / (pos_freq + neg_freq)
+  vocabs_filtered = sorted(vocabs, key=computeCPD, reverse=True)
+  vocabs_filtered = set(vocabs_filtered[:int(len(vocabs) * 1)])
+  num_features = len(vocabs_filtered)
 
   # Build up word counts by label, taking into account TF * IDF
   pos_counts_by_word = {}
@@ -56,14 +71,14 @@ def main():
       label = train_labels[i]
       counts_by_word = pos_counts_by_word if label == 1 else neg_counts_by_word
       for j, value in enumerate(vector):
-        if value > 0:
-          word = vocabs[j]
+        word = vocabs[j]
+        if value > 0 and word in vocabs_filtered:
           if word not in counts_by_word:
             counts_by_word[word] = 0
           tf = value
-          idf = float(num_train_examples) / documents_by_word[word]
+          idf = float(num_train_examples) / total_documents_by_word[word]
           counts_by_word[word] += tf * idf
-  print "Using %s features: %s..." % (num_features, ", ".join(vocabs[:15]))
+  print "Using %s features: %s..." % (num_features, ", ".join(list(vocabs_filtered)[:10]))
   print "%s features are used in positive reviews: %s..." %\
     (len(pos_counts_by_word), ", ".join(pos_counts_by_word.keys()[:10]))
   print "%s features are used in negative reviews: %s..." %\

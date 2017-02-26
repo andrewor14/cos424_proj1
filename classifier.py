@@ -69,15 +69,8 @@ def sk_bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
         num_test_correct += 1
       num_test_examples += 1
       if i < log_threshold:
-        print "------------------------------------------------------------------------"
-        print "Classifying line:"
-        print "  %s" % line.strip()
-        print "  words = [%s]" % (", ".join(words))
-        print "  predicted label = %s, expected label = %s" % (predicted_label, expected_label)
-
-  print "\n================================"
-  print "You guessed %s/%s correct." % (num_test_correct, num_test_examples)
-  print "================================\n"
+        print_classify_example(line, words, predicted_label, expected_label)
+  print_result(num_test_correct, num_test_examples)
 
 def bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
   manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=True)
@@ -150,7 +143,7 @@ def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
   # Do some classifying!
   num_test_correct = 0
   num_test_examples = 0
-  log_threshold = 0
+  log_threshold = 10
   with open(test_file, "r") as f:
     for i, line in enumerate(f.readlines()):
       words = clean_words(parse_example(line).split())
@@ -165,13 +158,20 @@ def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
         num_test_correct += 1
       num_test_examples += 1
       if i < log_threshold:
-        print "------------------------------------------------------------------------"
-        print "Classifying line:"
-        print "  %s" % line.strip()
-        print "  words = [%s]" % (", ".join(words))
-        print "  positive probability = %s, negative probability = %s" % (pos_probability, neg_probability)
-        print "  predicted label = %s, expected label = %s" % (predicted_label, expected_label)
+        prob_string = "  positive probability = %s, negative probability = %s" % (pos_probability, neg_probability)
+        print_classify_example(line, words, predicted_label, expected_label, prob_string)
+  print_result(num_test_correct, num_test_examples)
 
+def print_classify_example(line, words, predicted_label, expected_label, extra=""):
+  print "------------------------------------------------------------------------"
+  print "Classifying line:"
+  print "  %s" % line.strip()
+  print "  words = [%s]" % (", ".join(words))
+  if extra:
+    print extra
+  print "  predicted label = %s, expected label = %s" % (predicted_label, expected_label)
+
+def print_result(num_test_correct, num_test_examples):
   print "\n================================"
   print "You guessed %s/%s correct." % (num_test_correct, num_test_examples)
   print "================================\n"

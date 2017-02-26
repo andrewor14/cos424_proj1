@@ -1,4 +1,5 @@
 *.pdf
 *.pyc
 out*
+twitter.csv*
 

@@ -58,7 +58,10 @@ stop_words = stopwords.words("english")
 def clean_word(word):
   word = word.lower().strip()
   word = wnl.lemmatize(word)
-  word = porter.stem(word)
+  try:
+    word = porter.stem(word)
+  except Exception as e:
+    print "STEMMING WORD FAILED ON '%s'" % word
   return word
 
 def clean_words(tokens):
@@ -90,7 +93,6 @@ def tokenize_corpus(path, train=True):
      return(docs, classes, samples, words)
   else:
      return(docs, classes, samples)
-
 
 def wordcount_filter(words, num=5):
    keepset = []
@@ -126,16 +128,19 @@ def main(argv):
   path = ''
   outputf = 'out'
   vocabf = ''
+  trainfile = 'train.txt'
 
   try:
-   opts, args = getopt.getopt(argv,"p:o:v:",["path=","ofile=","vocabfile="])
+    opts, args = getopt.getopt(argv,"p:t:o:v:",["path=","ofile=","vocabfile="])
   except getopt.GetoptError:
-    print 'Usage: \n python preprocessSentences.py -p <path> -o <outputfile> -v <vocabulary>'
+    print 'Usage: \n python preprocessSentences.py -p <path> -t <trainfile> -o <outputfile> -v <vocabulary>'
     sys.exit(2)
   for opt, arg in opts:
     if opt == '-h':
-      print 'Usage: \n python preprocessSentences.py -p <path> -o <outputfile> -v <vocabulary>'
+      print 'Usage: \n python preprocessSentences.py -p <path> -t <trainfile> -o <outputfile> -v <vocabulary>'
       sys.exit()
+    elif opt in ("-t", "--train"):
+      trainfile = arg
     elif opt in ("-p", "--path"):
       path = arg
     elif opt in ("-o", "--ofile"):
@@ -143,48 +148,105 @@ def main(argv):
     elif opt in ("-v", "--vocabfile"):
       vocabf = arg
 
-  traintxt = path+"/train.txt"
+  traintxt = path+"/"+trainfile
   print 'Path:', path
   print 'Training data:', traintxt
 
-  # Tokenize training data (if training vocab doesn't already exist):
-  if (not vocabf):
-    word_count_threshold = 5
-    (docs, classes, samples, words) = tokenize_corpus(traintxt, train=True)
-    vocab = wordcount_filter(words, num=word_count_threshold)
-    # Write new vocab file
-    vocabf = outputf+"_vocab_"+str(word_count_threshold)+".txt"
-    outfile = codecs.open(path+"/"+vocabf, 'w',"utf-8-sig")
-    outfile.write("\n".join(vocab))
-    outfile.close()
-  else:
-    word_count_threshold = 0
-    (docs, classes, samples) = tokenize_corpus(traintxt, train=False)
-    vocabfile = open(path+"/"+vocabf, 'r')
-    vocab = [line.rstrip('\n') for line in vocabfile]
-    vocabfile.close()
+  # Build up things for feature selection
+  count_by_word = {}
+  total_documents_by_word = {}
+  pos_documents_by_word = {}
+  neg_documents_by_word = {}
+  all_document_words = [] # each element is a list of words in a particular document
+  word_count_threshold = 5
+  with open(traintxt, "r") as train_data:
+    for i, line in enumerate(train_data.readlines()):
+      split = line.strip().split()
+      tokens = clean_words(split[1:-1])
+      all_document_words += [tokens]
+      label = int(split[-1])
+      for token in tokens:
+        count_by_word[token] = (count_by_word.get(token) or 0) + 1
+      for token in list(set(tokens)):
+        docs_by_word = pos_documents_by_word if label == 1 else neg_documents_by_word
+        docs_by_word[token] = (docs_by_word.get(token) or 0) + 1
+        total_documents_by_word[token] = (total_documents_by_word.get(token) or 0) + 1
+  total_documents = len(all_document_words)
 
-  print 'Vocabulary file:', path+"/"+vocabf 
+  print "Done building things up man. Num documents in train set: %s." % total_documents
 
-  # Get bag of words:
-  bow = find_wordcounts(docs, vocab)
-  # Check: sum over docs to check if any zero word counts
-  print "Doc with smallest number of words in vocab has:", min(numpy.sum(bow, axis=1))
+  def computeCPD(word):
+    pos_freq = pos_documents_by_word[word] if word in pos_documents_by_word else 0
+    neg_freq = neg_documents_by_word[word] if word in neg_documents_by_word else 0
+    return float(abs(pos_freq - neg_freq)) / (pos_freq + neg_freq)
 
-  # Write bow file
-  with open(path+"/"+outputf+"_bag_of_words_"+str(word_count_threshold)+".csv", "wb") as f:
+  # Filter out some features, first by total count and then by CPD score
+  for word, count in count_by_word.items():
+    if count < word_count_threshold:
+      del count_by_word[word]
+  vocabs = sorted(count_by_word.keys(), key=computeCPD, reverse=True)
+  vocabs = vocabs[:int(len(vocabs) * 0.9)]
+
+  print "Done doing the feature selection thing man. Num vocabs: %s." % len(vocabs)
+
+  # Write vocab file
+  vocab_file_name = outputf+"_vocab_"+str(word_count_threshold)+".txt"
+  with codecs.open(path+"/"+vocab_file_name, "w","utf-8-sig") as f:
+    f.write("\n".join(vocabs))
+
+  # Write bag of words file
+  bow_file_name = path+"/"+outputf+"_bag_of_words_"+str(word_count_threshold)+".csv"
+  bow_data = numpy.zeros(shape=(total_documents, len(vocabs)), dtype=numpy.uint8)
+  vocab_index = {}
+  for i, vocab in enumerate(vocabs):
+    vocab_index[vocab] = i
+  for i, tokens in enumerate(all_document_words):
+    for token in tokens:
+      index = vocab_index.get(token)
+      if index > 0:
+        bow_data[i, index] = bow_data[i, index] + 1
+  with open(bow_file_name, "wb") as f:
     writer = csv.writer(f)
-    writer.writerows(bow)
+    writer.writerows(bow_data)
 
-  # Write classes
-  outfile= open(path+"/"+outputf+"_classes_"+str(word_count_threshold)+".txt", 'w')
-  outfile.write("\n".join(classes))
-  outfile.close()
+  ## Tokenize training data (if training vocab doesn't already exist):
+  #if (not vocabf):
+  #  word_count_threshold = 5
+  #  (docs, classes, samples, words) = tokenize_corpus(traintxt, train=True)
+  #  vocab = wordcount_filter(words, num=word_count_threshold)
+  #  # Write new vocab file
+  #  vocabf = outputf+"_vocab_"+str(word_count_threshold)+".txt"
+  #  outfile = codecs.open(path+"/"+vocabf, 'w',"utf-8-sig")
+  #  outfile.write("\n".join(vocab))
+  #  outfile.close()
+  #else:
+  #  word_count_threshold = 0
+  #  (docs, classes, samples) = tokenize_corpus(traintxt, train=False)
+  #  vocabfile = open(path+"/"+vocabf, 'r')
+  #  vocab = [line.rstrip('\n') for line in vocabfile]
+  #  vocabfile.close()
+
+  #print 'Vocabulary file:', path+"/"+vocabf
+
+  ## Get bag of words:
+  #bow = find_wordcounts(docs, vocab)
+  ## Check: sum over docs to check if any zero word counts
+  #print "Doc with smallest number of words in vocab has:", min(numpy.sum(bow, axis=1))
+
+  ## Write bow file
+  #with open(path+"/"+outputf+"_bag_of_words_"+str(word_count_threshold)+".csv", "wb") as f:
+  #  writer = csv.writer(f)
+  #  writer.writerows(bow)
+
+  ## Write classes
+  #outfile= open(path+"/"+outputf+"_classes_"+str(word_count_threshold)+".txt", 'w')
+  #outfile.write("\n".join(classes))
+  #outfile.close()
 
   # Write samples
-  outfile= open(path+"/"+outputf+"_samples_class_"+str(word_count_threshold)+".txt", 'w')
-  outfile.write("\n".join(samples))
-  outfile.close()
+  #outfile= open(path+"/"+outputf+"_samples_class_"+str(word_count_threshold)+".txt", 'w')
+  #outfile.write("\n".join(samples))
+  #outfile.close()
 
   print 'Output files:', path+"/"+outputf+"*"
 

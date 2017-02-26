@@ -28,10 +28,18 @@ def main():
     multinomial_naive_bayes(args.train, args.bow, vocabs, args.test)
   elif args.model == 'skbnb':
     sk_bernoulli_naive_bayes(args.train, args.bow, vocabs, args.test)
+  elif args.model == 'skmnb':
+    sk_multinomial_naive_bayes(args.train, args.bow, vocabs, args.test)
   else:
     raise Exception("Unknown model '%s' % args.model")
 
 def sk_bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
+  sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=True)
+
+def sk_multinomial_naive_bayes(train_file, bow_file, vocabs, test_file):
+  sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=False)
+
+def sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
   train_labels = []
   bow_data = []
   with open(train_file, "r") as f:
@@ -42,8 +50,8 @@ def sk_bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
       bow_data += [[int(v) for v in line.split(",")]]
   train_labels = np.array(train_labels)
   bow_data = np.array(bow_data)
-  from sklearn.naive_bayes import BernoulliNB
-  clf = BernoulliNB()
+  from sklearn.naive_bayes import BernoulliNB, MultinomialNB
+  clf = BernoulliNB() if bernoulli else MultinomialNB()
   clf.fit(bow_data, train_labels)
   # Test it!
   vocab_index = {}

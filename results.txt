@@ -1,5 +1,0 @@
-On train.txt dataset:
-- BNB: 458/600
-- MNB: 460/600
-- MNB + tf-idf: 462/600
-

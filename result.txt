@@ -1,5 +1,6 @@
 2% twitter data, 75% feature selection:
 - skbnb = 4490/6315
+- skmnb = 4387/6315
 - bnb = 4469/6315
 - mnb = 4470/6315
 

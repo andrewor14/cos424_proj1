@@ -64,7 +64,7 @@ def sk_bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
           word_vector[index] += 1
       word_vector = np.array(word_vector)
       # Do the prediction
-      predicted_label = clf.predict([word_vector])
+      predicted_label = clf.predict([word_vector])[0]
       if predicted_label == expected_label:
         num_test_correct += 1
       num_test_examples += 1
@@ -100,19 +100,21 @@ def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
     (num_train_examples, positive_prior, negative_prior)
 
   # Build up document frequency
-  total_documents_by_word = {}
-  with open(bow_file, "r") as f:
-    for i, line in enumerate(f.readlines()):
-      label = train_labels[i]
-      vector = [int(v) for v in line.split(",")]
-      assert len(vector) == len(vocabs),\
-        "expected %d words in line %d, got %d".format(len(vocabs), i + 1, len(vector))
-      for j, value in enumerate(vector):
-        if value > 0:
-          word = vocabs[j]
-          total_documents_by_word[word] = (total_documents_by_word.get(word) or 0) + 1
+  #print "Building up document frequency by word..."
+  #total_documents_by_word = {}
+  #with open(bow_file, "r") as f:
+  #  for i, line in enumerate(f.readlines()):
+  #    label = train_labels[i]
+  #    vector = [int(v) for v in line.split(",")]
+  #    assert len(vector) == len(vocabs),\
+  #      "expected %d words in line %d, got %d".format(len(vocabs), i + 1, len(vector))
+  #    for j, value in enumerate(vector):
+  #      if value > 0:
+  #        word = vocabs[j]
+  #        total_documents_by_word[word] = (total_documents_by_word.get(word) or 0) + 1
 
-  # Build up word counts by label, taking into account TF * IDF
+  # Build up word counts by label
+  num_features = len(vocabs)
   pos_counts_by_word = {}
   neg_counts_by_word = {}
   with open(bow_file, "r") as f:
@@ -128,9 +130,10 @@ def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
           if bernoulli:
             counts_by_word[word] += 1
           else:
-            tf = value
-            idf = float(num_train_examples) / total_documents_by_word[word]
-            counts_by_word[word] += tf * idf
+            #tf = value
+            #idf = float(num_train_examples) / total_documents_by_word[word]
+            #counts_by_word[word] += tf * idf
+            counts_by_word[word] += value
   print "Using %s features: %s..." % (num_features, ", ".join(list(vocabs)[:10]))
   print "%s features are used in positive reviews: %s..." %\
     (len(pos_counts_by_word), ", ".join(pos_counts_by_word.keys()[:10]))

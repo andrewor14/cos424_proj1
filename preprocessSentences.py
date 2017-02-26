@@ -185,7 +185,7 @@ def main(argv):
     if count < word_count_threshold:
       del count_by_word[word]
   vocabs = sorted(count_by_word.keys(), key=computeCPD, reverse=True)
-  vocabs = vocabs[:int(len(vocabs) * 0.9)]
+  vocabs = vocabs[:int(len(vocabs) * 0.75)]
 
   print "Done doing the feature selection thing man. Num vocabs: %s." % len(vocabs)
 

@@ -1,0 +1,250 @@
+preprocessSentences.py:68: UnicodeWarning: Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal
+  return [clean_word(w) for w in tokens if w.lower() not in stop_words and w.isalpha()]
+Path: .
+Training data: ./reviews.all4.train
+Done building things up man. Num documents in train set: 8000.
+Number of features before any feature selection: 166969
+Number of features after filtering out words by count threshold: 6704
+Done doing the feature selection thing man. Num vocabs: 5000.
+Output files: ./out*
+Runtime: 237.150602818
+Running model 'bnb' on train data 'reviews.all4.train' and test data 'reviews.all4.test'
+------------------------------------------------------------------------
+Classifying line:
+  B000H97NDG:beware_of_sony's_corporate_policy:c._abel	I bought a Sony ICD-MX20 Digital Voice Recorder a week ago.  I was surprised that Sony does not provide downloads of the associated software named "Digital Voice Editor".  Sony Customer Service staff told me that if you lost the CD that came with the box, you had to buy a new one.  Only patches of the software are available to download.	1.0
+  words = [bought, soni, icd, digit, voic, record, week, ago, surpris, soni, provid, download, associ, softwar, name, digit, voic, editor, soni, custom, servic, staff, told, lost, cd, came, box, buy, new, one, patch, softwar, avail, download, bought soni, soni icd, icd digit, digit voic, voic record, record week, week ago, ago surpris, surpris soni, soni provid, provid download, download associ, associ softwar, softwar name, name digit, digit voic, voic editor, editor soni, soni custom, custom servic, servic staff, staff told, told lost, lost cd, cd came, came box, box buy, buy new, new one, one patch, patch softwar, softwar avail, avail download]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000066PXL:excelenta_el_transporte_llego_en_buen_estado:eduardo_da_silva	que maravilla comprar por amazon.com todo llego en perfecto estad	5.0
+  words = [que, maravilla, comprar, por, amazon, com, todo, llego, en, perfecto, estad, que maravilla, maravilla comprar, comprar por, por amazon, amazon com, com todo, todo llego, llego en, en perfecto, perfecto estad]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000F8O454:about_the_worst_horror_ive_ever_seen....:s._gordon_"thescariesttoon"	Pick any house on any street.	1.0
+  words = [pick, hous, street, pick hous, hous street]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  193760	We had to buy a new pack n play because our other one was coming apart. I chose this one because of its features and colors. My daughter hated this and screamed every time we put her in it. We tried for days to get her to use this, but she never would. So, we returned this and got a different that she absolutely loves.	1.0
+  words = [buy, new, pack, n, play, one, come, apart, chose, one, featur, color, daughter, hate, scream, everi, time, put, tri, day, get, use, never, would, return, got, differ, absolut, love, buy new, new pack, pack n, n play, play one, one come, come apart, apart chose, chose one, one featur, featur color, color daughter, daughter hate, hate scream, scream everi, everi time, time put, put tri, tri day, day get, get use, use never, never would, would return, return got, got differ, differ absolut, absolut love]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B0002DF0FU:weights_fall_off_with_swimming_motion:mabelyn_arteaga	I lost the weights the second day of use. Bottom line the motion of the water as you swim unscrews the weights from the camera body. Save your money on this one.	1.0
+  words = [lost, weight, second, day, use, bottom, line, motion, water, swim, unscrew, weight, camera, bodi, save, money, one, lost weight, weight second, second day, day use, use bottom, bottom line, line motion, motion water, water swim, swim unscrew, unscrew weight, weight camera, camera bodi, bodi save, save money, money one]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  91367	To be honest with you I thought the movie was really bad. the acting was ok but the only good part about the movie was that ricky (Rodney Eastman) was in the movie. (for about 5 mins) but i would not suggest renting this movie and waisting 4 dollars	2.0
+  words = [honest, thought, movi, realli, bad, act, ok, good, part, movi, ricki, rodney, eastman, movi, min, would, suggest, rent, movi, waist, dollar, honest thought, thought movi, movi realli, realli bad, bad act, act ok, ok good, good part, part movi, movi ricki, ricki rodney, rodney eastman, eastman movi, movi min, min would, would suggest, suggest rent, rent movi, movi waist, waist dollar]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000I0QB00:would_have_returned:b._crowe	I bought this for me, but the size ran small and it is not of a very good weight.  I have a daughter that they did fit and she wanted to wear them under things so she became the proud owner.  The shirts are not by any means high or even good quality	2.0
+  words = [bought, size, ran, small, good, weight, daughter, fit, want, wear, thing, becam, proud, owner, shirt, mean, high, even, good, qualiti, bought size, size ran, ran small, small good, good weight, weight daughter, daughter fit, fit want, want wear, wear thing, thing becam, becam proud, proud owner, owner shirt, shirt mean, mean high, high even, even good, good qualiti]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000C13YUU:very_flimsy_:lennox_boothe_"lenny"	Not at all what I expected. I started to install it and a light wind blew causing the structure to fall and bending it. I know its not an expensive product but I expected a better quality. Also I recieved it with some of the curtain hooks broken.I am going to return it	1.0
+  words = [expect, start, instal, light, wind, blew, caus, structur, fall, bend, know, expens, product, expect, better, qualiti, also, reciev, curtain, hook, broken, go, return, expect start, start instal, instal light, light wind, wind blew, blew caus, caus structur, structur fall, fall bend, bend know, know expens, expens product, product expect, expect better, better qualiti, qualiti also, also reciev, reciev curtain, curtain hook, hook broken, broken go, go return]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000GTRWZ6:hydrabrush:e._ward	After brushing with the HydraBrush, my teeth feel as clean as when I've been to the dental hygenist.	5.0
+  words = [brush, hydrabrush, teeth, feel, clean, dental, hygenist, brush hydrabrush, hydrabrush teeth, teeth feel, feel clean, clean dental, dental hygenist]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  390335	For every season, there is a classic movie.  In our house, "A Christmas Story" tops the list when Christmas rolls around.  Without a doubt this movie is a classic!  Ralphie and his quest for the Red Ryder BB gun -- I do love this movie.	5.0
+  words = [everi, season, classic, movi, hous, christma, stori, top, list, christma, roll, around, without, doubt, movi, classic, ralphi, quest, red, ryder, bb, gun, love, movi, everi season, season classic, classic movi, movi hous, hous christma, christma stori, stori top, top list, list christma, christma roll, roll around, around without, without doubt, doubt movi, movi classic, classic ralphi, ralphi quest, quest red, red ryder, ryder bb, bb gun, gun love, love movi]
+  predicted label = 1, expected label = 1
+
+================================
+You guessed 1477/2000 = 73.85% correct.
+  - False positive rate: [0.0, 0.27036599763872493, 1.0]
+  - True positive rate: [0.0, 0.7450130095403296, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.737323505951
+================================
+
+Running model 'mnb' on train data 'reviews.all4.train' and test data 'reviews.all4.test'
+------------------------------------------------------------------------
+Classifying line:
+  B000H97NDG:beware_of_sony's_corporate_policy:c._abel	I bought a Sony ICD-MX20 Digital Voice Recorder a week ago.  I was surprised that Sony does not provide downloads of the associated software named "Digital Voice Editor".  Sony Customer Service staff told me that if you lost the CD that came with the box, you had to buy a new one.  Only patches of the software are available to download.	1.0
+  words = [bought, soni, icd, digit, voic, record, week, ago, surpris, soni, provid, download, associ, softwar, name, digit, voic, editor, soni, custom, servic, staff, told, lost, cd, came, box, buy, new, one, patch, softwar, avail, download, bought soni, soni icd, icd digit, digit voic, voic record, record week, week ago, ago surpris, surpris soni, soni provid, provid download, download associ, associ softwar, softwar name, name digit, digit voic, voic editor, editor soni, soni custom, custom servic, servic staff, staff told, told lost, lost cd, cd came, came box, box buy, buy new, new one, one patch, patch softwar, softwar avail, avail download]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000066PXL:excelenta_el_transporte_llego_en_buen_estado:eduardo_da_silva	que maravilla comprar por amazon.com todo llego en perfecto estad	5.0
+  words = [que, maravilla, comprar, por, amazon, com, todo, llego, en, perfecto, estad, que maravilla, maravilla comprar, comprar por, por amazon, amazon com, com todo, todo llego, llego en, en perfecto, perfecto estad]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000F8O454:about_the_worst_horror_ive_ever_seen....:s._gordon_"thescariesttoon"	Pick any house on any street.	1.0
+  words = [pick, hous, street, pick hous, hous street]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  193760	We had to buy a new pack n play because our other one was coming apart. I chose this one because of its features and colors. My daughter hated this and screamed every time we put her in it. We tried for days to get her to use this, but she never would. So, we returned this and got a different that she absolutely loves.	1.0
+  words = [buy, new, pack, n, play, one, come, apart, chose, one, featur, color, daughter, hate, scream, everi, time, put, tri, day, get, use, never, would, return, got, differ, absolut, love, buy new, new pack, pack n, n play, play one, one come, come apart, apart chose, chose one, one featur, featur color, color daughter, daughter hate, hate scream, scream everi, everi time, time put, put tri, tri day, day get, get use, use never, never would, would return, return got, got differ, differ absolut, absolut love]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B0002DF0FU:weights_fall_off_with_swimming_motion:mabelyn_arteaga	I lost the weights the second day of use. Bottom line the motion of the water as you swim unscrews the weights from the camera body. Save your money on this one.	1.0
+  words = [lost, weight, second, day, use, bottom, line, motion, water, swim, unscrew, weight, camera, bodi, save, money, one, lost weight, weight second, second day, day use, use bottom, bottom line, line motion, motion water, water swim, swim unscrew, unscrew weight, weight camera, camera bodi, bodi save, save money, money one]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  91367	To be honest with you I thought the movie was really bad. the acting was ok but the only good part about the movie was that ricky (Rodney Eastman) was in the movie. (for about 5 mins) but i would not suggest renting this movie and waisting 4 dollars	2.0
+  words = [honest, thought, movi, realli, bad, act, ok, good, part, movi, ricki, rodney, eastman, movi, min, would, suggest, rent, movi, waist, dollar, honest thought, thought movi, movi realli, realli bad, bad act, act ok, ok good, good part, part movi, movi ricki, ricki rodney, rodney eastman, eastman movi, movi min, min would, would suggest, suggest rent, rent movi, movi waist, waist dollar]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000I0QB00:would_have_returned:b._crowe	I bought this for me, but the size ran small and it is not of a very good weight.  I have a daughter that they did fit and she wanted to wear them under things so she became the proud owner.  The shirts are not by any means high or even good quality	2.0
+  words = [bought, size, ran, small, good, weight, daughter, fit, want, wear, thing, becam, proud, owner, shirt, mean, high, even, good, qualiti, bought size, size ran, ran small, small good, good weight, weight daughter, daughter fit, fit want, want wear, wear thing, thing becam, becam proud, proud owner, owner shirt, shirt mean, mean high, high even, even good, good qualiti]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000C13YUU:very_flimsy_:lennox_boothe_"lenny"	Not at all what I expected. I started to install it and a light wind blew causing the structure to fall and bending it. I know its not an expensive product but I expected a better quality. Also I recieved it with some of the curtain hooks broken.I am going to return it	1.0
+  words = [expect, start, instal, light, wind, blew, caus, structur, fall, bend, know, expens, product, expect, better, qualiti, also, reciev, curtain, hook, broken, go, return, expect start, start instal, instal light, light wind, wind blew, blew caus, caus structur, structur fall, fall bend, bend know, know expens, expens product, product expect, expect better, better qualiti, qualiti also, also reciev, reciev curtain, curtain hook, hook broken, broken go, go return]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000GTRWZ6:hydrabrush:e._ward	After brushing with the HydraBrush, my teeth feel as clean as when I've been to the dental hygenist.	5.0
+  words = [brush, hydrabrush, teeth, feel, clean, dental, hygenist, brush hydrabrush, hydrabrush teeth, teeth feel, feel clean, clean dental, dental hygenist]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  390335	For every season, there is a classic movie.  In our house, "A Christmas Story" tops the list when Christmas rolls around.  Without a doubt this movie is a classic!  Ralphie and his quest for the Red Ryder BB gun -- I do love this movie.	5.0
+  words = [everi, season, classic, movi, hous, christma, stori, top, list, christma, roll, around, without, doubt, movi, classic, ralphi, quest, red, ryder, bb, gun, love, movi, everi season, season classic, classic movi, movi hous, hous christma, christma stori, stori top, top list, list christma, christma roll, roll around, around without, without doubt, doubt movi, movi classic, classic ralphi, ralphi quest, quest red, red ryder, ryder bb, bb gun, gun love, love movi]
+  predicted label = 1, expected label = 1
+
+================================
+You guessed 1488/2000 = 74.4% correct.
+  - False positive rate: [0.0, 0.3270365997638725, 1.0]
+  - True positive rate: [0.0, 0.7961838681699913, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.734573634203
+================================
+
+Running model 'dt' on train data 'reviews.all4.train' and test data 'reviews.all4.test'
+------------------------------------------------------------------------
+Classifying line:
+  B000H97NDG:beware_of_sony's_corporate_policy:c._abel	I bought a Sony ICD-MX20 Digital Voice Recorder a week ago.  I was surprised that Sony does not provide downloads of the associated software named "Digital Voice Editor".  Sony Customer Service staff told me that if you lost the CD that came with the box, you had to buy a new one.  Only patches of the software are available to download.	1.0
+  words = [bought, soni, icd, digit, voic, record, week, ago, surpris, soni, provid, download, associ, softwar, name, digit, voic, editor, soni, custom, servic, staff, told, lost, cd, came, box, buy, new, one, patch, softwar, avail, download, bought soni, soni icd, icd digit, digit voic, voic record, record week, week ago, ago surpris, surpris soni, soni provid, provid download, download associ, associ softwar, softwar name, name digit, digit voic, voic editor, editor soni, soni custom, custom servic, servic staff, staff told, told lost, lost cd, cd came, came box, box buy, buy new, new one, one patch, patch softwar, softwar avail, avail download]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000066PXL:excelenta_el_transporte_llego_en_buen_estado:eduardo_da_silva	que maravilla comprar por amazon.com todo llego en perfecto estad	5.0
+  words = [que, maravilla, comprar, por, amazon, com, todo, llego, en, perfecto, estad, que maravilla, maravilla comprar, comprar por, por amazon, amazon com, com todo, todo llego, llego en, en perfecto, perfecto estad]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000F8O454:about_the_worst_horror_ive_ever_seen....:s._gordon_"thescariesttoon"	Pick any house on any street.	1.0
+  words = [pick, hous, street, pick hous, hous street]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  193760	We had to buy a new pack n play because our other one was coming apart. I chose this one because of its features and colors. My daughter hated this and screamed every time we put her in it. We tried for days to get her to use this, but she never would. So, we returned this and got a different that she absolutely loves.	1.0
+  words = [buy, new, pack, n, play, one, come, apart, chose, one, featur, color, daughter, hate, scream, everi, time, put, tri, day, get, use, never, would, return, got, differ, absolut, love, buy new, new pack, pack n, n play, play one, one come, come apart, apart chose, chose one, one featur, featur color, color daughter, daughter hate, hate scream, scream everi, everi time, time put, put tri, tri day, day get, get use, use never, never would, would return, return got, got differ, differ absolut, absolut love]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B0002DF0FU:weights_fall_off_with_swimming_motion:mabelyn_arteaga	I lost the weights the second day of use. Bottom line the motion of the water as you swim unscrews the weights from the camera body. Save your money on this one.	1.0
+  words = [lost, weight, second, day, use, bottom, line, motion, water, swim, unscrew, weight, camera, bodi, save, money, one, lost weight, weight second, second day, day use, use bottom, bottom line, line motion, motion water, water swim, swim unscrew, unscrew weight, weight camera, camera bodi, bodi save, save money, money one]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  91367	To be honest with you I thought the movie was really bad. the acting was ok but the only good part about the movie was that ricky (Rodney Eastman) was in the movie. (for about 5 mins) but i would not suggest renting this movie and waisting 4 dollars	2.0
+  words = [honest, thought, movi, realli, bad, act, ok, good, part, movi, ricki, rodney, eastman, movi, min, would, suggest, rent, movi, waist, dollar, honest thought, thought movi, movi realli, realli bad, bad act, act ok, ok good, good part, part movi, movi ricki, ricki rodney, rodney eastman, eastman movi, movi min, min would, would suggest, suggest rent, rent movi, movi waist, waist dollar]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000I0QB00:would_have_returned:b._crowe	I bought this for me, but the size ran small and it is not of a very good weight.  I have a daughter that they did fit and she wanted to wear them under things so she became the proud owner.  The shirts are not by any means high or even good quality	2.0
+  words = [bought, size, ran, small, good, weight, daughter, fit, want, wear, thing, becam, proud, owner, shirt, mean, high, even, good, qualiti, bought size, size ran, ran small, small good, good weight, weight daughter, daughter fit, fit want, want wear, wear thing, thing becam, becam proud, proud owner, owner shirt, shirt mean, mean high, high even, even good, good qualiti]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000C13YUU:very_flimsy_:lennox_boothe_"lenny"	Not at all what I expected. I started to install it and a light wind blew causing the structure to fall and bending it. I know its not an expensive product but I expected a better quality. Also I recieved it with some of the curtain hooks broken.I am going to return it	1.0
+  words = [expect, start, instal, light, wind, blew, caus, structur, fall, bend, know, expens, product, expect, better, qualiti, also, reciev, curtain, hook, broken, go, return, expect start, start instal, instal light, light wind, wind blew, blew caus, caus structur, structur fall, fall bend, bend know, know expens, expens product, product expect, expect better, better qualiti, qualiti also, also reciev, reciev curtain, curtain hook, hook broken, broken go, go return]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000GTRWZ6:hydrabrush:e._ward	After brushing with the HydraBrush, my teeth feel as clean as when I've been to the dental hygenist.	5.0
+  words = [brush, hydrabrush, teeth, feel, clean, dental, hygenist, brush hydrabrush, hydrabrush teeth, teeth feel, feel clean, clean dental, dental hygenist]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  390335	For every season, there is a classic movie.  In our house, "A Christmas Story" tops the list when Christmas rolls around.  Without a doubt this movie is a classic!  Ralphie and his quest for the Red Ryder BB gun -- I do love this movie.	5.0
+  words = [everi, season, classic, movi, hous, christma, stori, top, list, christma, roll, around, without, doubt, movi, classic, ralphi, quest, red, ryder, bb, gun, love, movi, everi season, season classic, classic movi, movi hous, hous christma, christma stori, stori top, top list, list christma, christma roll, roll around, around without, without doubt, doubt movi, movi classic, classic ralphi, ralphi quest, quest red, red ryder, ryder bb, bb gun, gun love, love movi]
+  predicted label = 1, expected label = 1
+
+================================
+You guessed 1308/2000 = 65.4% correct.
+  - False positive rate: [0.0, 0.45218417945690675, 1.0]
+  - True positive rate: [0.0, 0.7320034692107545, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.639909644877
+================================
+
+Running model 'rf' on train data 'reviews.all4.train' and test data 'reviews.all4.test'
+------------------------------------------------------------------------
+Classifying line:
+  B000H97NDG:beware_of_sony's_corporate_policy:c._abel	I bought a Sony ICD-MX20 Digital Voice Recorder a week ago.  I was surprised that Sony does not provide downloads of the associated software named "Digital Voice Editor".  Sony Customer Service staff told me that if you lost the CD that came with the box, you had to buy a new one.  Only patches of the software are available to download.	1.0
+  words = [bought, soni, icd, digit, voic, record, week, ago, surpris, soni, provid, download, associ, softwar, name, digit, voic, editor, soni, custom, servic, staff, told, lost, cd, came, box, buy, new, one, patch, softwar, avail, download, bought soni, soni icd, icd digit, digit voic, voic record, record week, week ago, ago surpris, surpris soni, soni provid, provid download, download associ, associ softwar, softwar name, name digit, digit voic, voic editor, editor soni, soni custom, custom servic, servic staff, staff told, told lost, lost cd, cd came, came box, box buy, buy new, new one, one patch, patch softwar, softwar avail, avail download]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000066PXL:excelenta_el_transporte_llego_en_buen_estado:eduardo_da_silva	que maravilla comprar por amazon.com todo llego en perfecto estad	5.0
+  words = [que, maravilla, comprar, por, amazon, com, todo, llego, en, perfecto, estad, que maravilla, maravilla comprar, comprar por, por amazon, amazon com, com todo, todo llego, llego en, en perfecto, perfecto estad]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000F8O454:about_the_worst_horror_ive_ever_seen....:s._gordon_"thescariesttoon"	Pick any house on any street.	1.0
+  words = [pick, hous, street, pick hous, hous street]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  193760	We had to buy a new pack n play because our other one was coming apart. I chose this one because of its features and colors. My daughter hated this and screamed every time we put her in it. We tried for days to get her to use this, but she never would. So, we returned this and got a different that she absolutely loves.	1.0
+  words = [buy, new, pack, n, play, one, come, apart, chose, one, featur, color, daughter, hate, scream, everi, time, put, tri, day, get, use, never, would, return, got, differ, absolut, love, buy new, new pack, pack n, n play, play one, one come, come apart, apart chose, chose one, one featur, featur color, color daughter, daughter hate, hate scream, scream everi, everi time, time put, put tri, tri day, day get, get use, use never, never would, would return, return got, got differ, differ absolut, absolut love]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B0002DF0FU:weights_fall_off_with_swimming_motion:mabelyn_arteaga	I lost the weights the second day of use. Bottom line the motion of the water as you swim unscrews the weights from the camera body. Save your money on this one.	1.0
+  words = [lost, weight, second, day, use, bottom, line, motion, water, swim, unscrew, weight, camera, bodi, save, money, one, lost weight, weight second, second day, day use, use bottom, bottom line, line motion, motion water, water swim, swim unscrew, unscrew weight, weight camera, camera bodi, bodi save, save money, money one]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  91367	To be honest with you I thought the movie was really bad. the acting was ok but the only good part about the movie was that ricky (Rodney Eastman) was in the movie. (for about 5 mins) but i would not suggest renting this movie and waisting 4 dollars	2.0
+  words = [honest, thought, movi, realli, bad, act, ok, good, part, movi, ricki, rodney, eastman, movi, min, would, suggest, rent, movi, waist, dollar, honest thought, thought movi, movi realli, realli bad, bad act, act ok, ok good, good part, part movi, movi ricki, ricki rodney, rodney eastman, eastman movi, movi min, min would, would suggest, suggest rent, rent movi, movi waist, waist dollar]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000I0QB00:would_have_returned:b._crowe	I bought this for me, but the size ran small and it is not of a very good weight.  I have a daughter that they did fit and she wanted to wear them under things so she became the proud owner.  The shirts are not by any means high or even good quality	2.0
+  words = [bought, size, ran, small, good, weight, daughter, fit, want, wear, thing, becam, proud, owner, shirt, mean, high, even, good, qualiti, bought size, size ran, ran small, small good, good weight, weight daughter, daughter fit, fit want, want wear, wear thing, thing becam, becam proud, proud owner, owner shirt, shirt mean, mean high, high even, even good, good qualiti]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000C13YUU:very_flimsy_:lennox_boothe_"lenny"	Not at all what I expected. I started to install it and a light wind blew causing the structure to fall and bending it. I know its not an expensive product but I expected a better quality. Also I recieved it with some of the curtain hooks broken.I am going to return it	1.0
+  words = [expect, start, instal, light, wind, blew, caus, structur, fall, bend, know, expens, product, expect, better, qualiti, also, reciev, curtain, hook, broken, go, return, expect start, start instal, instal light, light wind, wind blew, blew caus, caus structur, structur fall, fall bend, bend know, know expens, expens product, product expect, expect better, better qualiti, qualiti also, also reciev, reciev curtain, curtain hook, hook broken, broken go, go return]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000GTRWZ6:hydrabrush:e._ward	After brushing with the HydraBrush, my teeth feel as clean as when I've been to the dental hygenist.	5.0
+  words = [brush, hydrabrush, teeth, feel, clean, dental, hygenist, brush hydrabrush, hydrabrush teeth, teeth feel, feel clean, clean dental, dental hygenist]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  390335	For every season, there is a classic movie.  In our house, "A Christmas Story" tops the list when Christmas rolls around.  Without a doubt this movie is a classic!  Ralphie and his quest for the Red Ryder BB gun -- I do love this movie.	5.0
+  words = [everi, season, classic, movi, hous, christma, stori, top, list, christma, roll, around, without, doubt, movi, classic, ralphi, quest, red, ryder, bb, gun, love, movi, everi season, season classic, classic movi, movi hous, hous christma, christma stori, stori top, top list, list christma, christma roll, roll around, around without, without doubt, doubt movi, movi classic, classic ralphi, ralphi quest, quest red, red ryder, ryder bb, bb gun, gun love, love movi]
+  predicted label = 1, expected label = 1
+
+================================
+You guessed 1375/2000 = 68.75% correct.
+  - False positive rate: [0.0, 0.38134592680047225, 1.0]
+  - True positive rate: [0.0, 0.738074588031223, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.678364330615
+================================
+

@@ -60,7 +60,7 @@ def make_svm_model():
   #  {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']}
   #]
   param_grid = [{'C':[0.1, 1, 10, 100]}]
-  return BaggingClassifier(GridSearchCV(LinearSVC(verbose=True), param_grid), n_jobs=4)
+  return BaggingClassifier(GridSearchCV(SVC(kernel='linear'), param_grid), n_jobs=4)
 
 def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = []

@@ -1,0 +1,250 @@
+preprocessSentences.py:68: UnicodeWarning: Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal
+  return [clean_word(w) for w in tokens if w.lower() not in stop_words and w.isalpha()]
+Path: .
+Training data: ./reviews.all1.train
+Done building things up man. Num documents in train set: 8000.
+Number of features before any feature selection: 167350
+Number of features after filtering out words by count threshold: 6748
+Done doing the feature selection thing man. Num vocabs: 3000.
+Output files: ./out*
+Runtime: 291.528542995
+Running model 'bnb' on train data 'reviews.all1.train' and test data 'reviews.all1.test'
+------------------------------------------------------------------------
+Classifying line:
+  346559	These are the best memory cards you can get for the PS2.  Only get this one or the Sony PlayStation 2 1PK Memory Card.  Rumors spread that non-Sony memory cards can damage your PS2 and lose saves on you memory cards	5.0
+  words = [best, memori, card, get, get, one, soni, playstat, memori, card, rumor, spread, non, soni, memori, card, damag, lose, save, memori, card, best memori, memori card, card get, get get, get one, one soni, soni playstat, playstat memori, memori card, card rumor, rumor spread, spread non, non soni, soni memori, memori card, card damag, damag lose, lose save, save memori, memori card]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00029ZE2S:satisfactory_but_too_slow.:satish_seshadri	This DVR works ok.  But when it is recording, forget about changing channels.  It is really really slow and takes like forever to even receive any remote clicks.	2.0
+  words = [dvr, work, ok, record, forget, chang, channel, realli, realli, slow, take, like, forev, even, receiv, remot, click, dvr work, work ok, ok record, record forget, forget chang, chang channel, channel realli, realli realli, realli slow, slow take, take like, like forev, forev even, even receiv, receiv remot, remot click]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000HL0ET4:unbox_video_not_yet_working:paul_i._allen_"paul"	Will not play once video was downloaded. I get the error message:  "can not play file, please try again later. error# 0x80040273" I made the exlusive give me call me back feature but the UnBox department was already closed, I was told the UnBox Saturday and Sunday 6-5 hours. I have to say I am impressed with the Call back feature. I downloaded the Unbox Beta now and am recieving email assistance to try to resolve the problem. Thanks Amazon UnBox! I will Update again - Feb. 10,200	1.0
+  words = [play, video, download, get, error, messag, play, file, pleas, tri, later, error, made, exlus, give, call, back, featur, unbox, depart, alreadi, close, told, unbox, saturday, sunday, hour, say, impress, call, back, featur, download, unbox, beta, reciev, email, assist, tri, resolv, problem, thank, amazon, unbox, updat, feb, play video, video download, download get, get error, error messag, messag play, play file, file pleas, pleas tri, tri later, later error, error made, made exlus, exlus give, give call, call back, back featur, featur unbox, unbox depart, depart alreadi, alreadi close, close told, told unbox, unbox saturday, saturday sunday, sunday hour, hour say, say impress, impress call, call back, back featur, featur download, download unbox, unbox beta, beta reciev, reciev email, email assist, assist tri, tri resolv, resolv problem, problem thank, thank amazon, amazon unbox, unbox updat, updat feb]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00094HPVO:great_cover-_save_yourself_$$$:kindra	This is a very easy to use cloth diaper cover and we have very few leaks- I had more leaks with disposables.  We are using these on our newborn and will continue to use them in the larger sizes.  I am very happy with all the money we are saving by using cloth, and delighted with the ease of use of this product.	5.0
+  words = [easi, use, cloth, diaper, cover, leak, leak, dispos, use, newborn, continu, use, larger, size, happi, money, save, use, cloth, delight, eas, use, product, easi use, use cloth, cloth diaper, diaper cover, cover leak, leak leak, leak dispos, dispos use, use newborn, newborn continu, continu use, use larger, larger size, size happi, happi money, money save, save use, use cloth, cloth delight, delight eas, eas use, use product]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00068O22S:terrible!!!!:ewa_j._majerowicz	I just bought the knobs and they are terrible!!!!  I have so much trouble opening them.   DO NOT BUY IT!!!!  IT'S A WASTE OF MONEY,  it's better to just remove all knobs off your stove and use one when you need it.	1.0
+  words = [bought, knob, terribl, much, troubl, open, buy, wast, money, better, remov, knob, stove, use, one, need, bought knob, knob terribl, terribl much, much troubl, troubl open, open buy, buy wast, wast money, money better, better remov, remov knob, knob stove, stove use, use one, one need]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00007AJFJ:spongebob_and_patrick:	spongebob's house party	1.0
+  words = [spongebob, hous, parti, spongebob hous, hous parti]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  454025	I am really liking this magazine already because it focuses particularly on multicultural and biracial marriages, brides, grooms, weddings, everything!	4.0
+  words = [realli, like, magazin, alreadi, focu, particularli, multicultur, biraci, marriag, bride, groom, wed, everyth, realli like, like magazin, magazin alreadi, alreadi focu, focu particularli, particularli multicultur, multicultur biraci, biraci marriag, marriag bride, bride groom, groom wed, wed everyth]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000M3HVLQ:excellent_for_amateur_like_me_-much_like_an_upgraded_hc90_:thomas_gull_"tom_gull"	This just arrived Thursday so these comments come with minimal time on camera so far. I am also absolutely an amateur user of camcorders so I won't be able to comment on the quality of the manual controls, etc.	5.0
+  words = [arriv, thursday, comment, come, minim, time, camera, far, also, absolut, amateur, user, camcord, abl, comment, qualiti, manual, control, etc, arriv thursday, thursday comment, comment come, come minim, minim time, time camera, camera far, far also, also absolut, absolut amateur, amateur user, user camcord, camcord abl, abl comment, comment qualiti, qualiti manual, manual control, control etc]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00008DDXK:just_another_dumb_preppie_vs._nerd_movie:	This movie has been done over and over again, with different actors and by different directors, but the plot is stale and has gotten extremely boring.  Don't bother with another cookie cutter movie of this kind.... buy something original or save your money	1.0
+  words = [movi, done, differ, actor, differ, director, plot, stale, gotten, extrem, bore, bother, anoth, cooki, cutter, movi, kind, buy, someth, origin, save, money, movi done, done differ, differ actor, actor differ, differ director, director plot, plot stale, stale gotten, gotten extrem, extrem bore, bore bother, bother anoth, anoth cooki, cooki cutter, cutter movi, movi kind, kind buy, buy someth, someth origin, origin save, save money]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00005A3L1:uneducated_opinion:thomas_j._smith	I bought this as a complete novice to the sport?? of metal detecting.  I bought it with the intention of locating a few property stakes and maybe finding some valuable treasures in my yard.  To date I have found neither.  I would chalk this up to my inexperiece and to the fact that I have not gotten out and used it nearly as much as I imagined I would.  Everything I have read about this particular detector indicated it was an introductory model that works reasonably well.  I would agree	4.0
+  words = [bought, complet, novic, sport, metal, detect, bought, intent, locat, properti, stake, mayb, find, valuabl, treasur, yard, date, found, neither, would, chalk, inexperiec, fact, gotten, use, nearli, much, imagin, would, everyth, read, particular, detector, indic, introductori, model, work, reason, well, would, agre, bought complet, complet novic, novic sport, sport metal, metal detect, detect bought, bought intent, intent locat, locat properti, properti stake, stake mayb, mayb find, find valuabl, valuabl treasur, treasur yard, yard date, date found, found neither, neither would, would chalk, chalk inexperiec, inexperiec fact, fact gotten, gotten use, use nearli, nearli much, much imagin, imagin would, would everyth, everyth read, read particular, particular detector, detector indic, indic introductori, introductori model, model work, work reason, reason well, well would, would agre]
+  predicted label = 1, expected label = 1
+
+================================
+You guessed 1327/2000 = 66.35% correct.
+  - False positive rate: [0.0, 0.30892448512585813, 1.0]
+  - True positive rate: [0.0, 0.6420959147424512, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.666585714808
+================================
+
+Running model 'mnb' on train data 'reviews.all1.train' and test data 'reviews.all1.test'
+------------------------------------------------------------------------
+Classifying line:
+  346559	These are the best memory cards you can get for the PS2.  Only get this one or the Sony PlayStation 2 1PK Memory Card.  Rumors spread that non-Sony memory cards can damage your PS2 and lose saves on you memory cards	5.0
+  words = [best, memori, card, get, get, one, soni, playstat, memori, card, rumor, spread, non, soni, memori, card, damag, lose, save, memori, card, best memori, memori card, card get, get get, get one, one soni, soni playstat, playstat memori, memori card, card rumor, rumor spread, spread non, non soni, soni memori, memori card, card damag, damag lose, lose save, save memori, memori card]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00029ZE2S:satisfactory_but_too_slow.:satish_seshadri	This DVR works ok.  But when it is recording, forget about changing channels.  It is really really slow and takes like forever to even receive any remote clicks.	2.0
+  words = [dvr, work, ok, record, forget, chang, channel, realli, realli, slow, take, like, forev, even, receiv, remot, click, dvr work, work ok, ok record, record forget, forget chang, chang channel, channel realli, realli realli, realli slow, slow take, take like, like forev, forev even, even receiv, receiv remot, remot click]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000HL0ET4:unbox_video_not_yet_working:paul_i._allen_"paul"	Will not play once video was downloaded. I get the error message:  "can not play file, please try again later. error# 0x80040273" I made the exlusive give me call me back feature but the UnBox department was already closed, I was told the UnBox Saturday and Sunday 6-5 hours. I have to say I am impressed with the Call back feature. I downloaded the Unbox Beta now and am recieving email assistance to try to resolve the problem. Thanks Amazon UnBox! I will Update again - Feb. 10,200	1.0
+  words = [play, video, download, get, error, messag, play, file, pleas, tri, later, error, made, exlus, give, call, back, featur, unbox, depart, alreadi, close, told, unbox, saturday, sunday, hour, say, impress, call, back, featur, download, unbox, beta, reciev, email, assist, tri, resolv, problem, thank, amazon, unbox, updat, feb, play video, video download, download get, get error, error messag, messag play, play file, file pleas, pleas tri, tri later, later error, error made, made exlus, exlus give, give call, call back, back featur, featur unbox, unbox depart, depart alreadi, alreadi close, close told, told unbox, unbox saturday, saturday sunday, sunday hour, hour say, say impress, impress call, call back, back featur, featur download, download unbox, unbox beta, beta reciev, reciev email, email assist, assist tri, tri resolv, resolv problem, problem thank, thank amazon, amazon unbox, unbox updat, updat feb]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00094HPVO:great_cover-_save_yourself_$$$:kindra	This is a very easy to use cloth diaper cover and we have very few leaks- I had more leaks with disposables.  We are using these on our newborn and will continue to use them in the larger sizes.  I am very happy with all the money we are saving by using cloth, and delighted with the ease of use of this product.	5.0
+  words = [easi, use, cloth, diaper, cover, leak, leak, dispos, use, newborn, continu, use, larger, size, happi, money, save, use, cloth, delight, eas, use, product, easi use, use cloth, cloth diaper, diaper cover, cover leak, leak leak, leak dispos, dispos use, use newborn, newborn continu, continu use, use larger, larger size, size happi, happi money, money save, save use, use cloth, cloth delight, delight eas, eas use, use product]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00068O22S:terrible!!!!:ewa_j._majerowicz	I just bought the knobs and they are terrible!!!!  I have so much trouble opening them.   DO NOT BUY IT!!!!  IT'S A WASTE OF MONEY,  it's better to just remove all knobs off your stove and use one when you need it.	1.0
+  words = [bought, knob, terribl, much, troubl, open, buy, wast, money, better, remov, knob, stove, use, one, need, bought knob, knob terribl, terribl much, much troubl, troubl open, open buy, buy wast, wast money, money better, better remov, remov knob, knob stove, stove use, use one, one need]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00007AJFJ:spongebob_and_patrick:	spongebob's house party	1.0
+  words = [spongebob, hous, parti, spongebob hous, hous parti]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  454025	I am really liking this magazine already because it focuses particularly on multicultural and biracial marriages, brides, grooms, weddings, everything!	4.0
+  words = [realli, like, magazin, alreadi, focu, particularli, multicultur, biraci, marriag, bride, groom, wed, everyth, realli like, like magazin, magazin alreadi, alreadi focu, focu particularli, particularli multicultur, multicultur biraci, biraci marriag, marriag bride, bride groom, groom wed, wed everyth]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000M3HVLQ:excellent_for_amateur_like_me_-much_like_an_upgraded_hc90_:thomas_gull_"tom_gull"	This just arrived Thursday so these comments come with minimal time on camera so far. I am also absolutely an amateur user of camcorders so I won't be able to comment on the quality of the manual controls, etc.	5.0
+  words = [arriv, thursday, comment, come, minim, time, camera, far, also, absolut, amateur, user, camcord, abl, comment, qualiti, manual, control, etc, arriv thursday, thursday comment, comment come, come minim, minim time, time camera, camera far, far also, also absolut, absolut amateur, amateur user, user camcord, camcord abl, abl comment, comment qualiti, qualiti manual, manual control, control etc]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00008DDXK:just_another_dumb_preppie_vs._nerd_movie:	This movie has been done over and over again, with different actors and by different directors, but the plot is stale and has gotten extremely boring.  Don't bother with another cookie cutter movie of this kind.... buy something original or save your money	1.0
+  words = [movi, done, differ, actor, differ, director, plot, stale, gotten, extrem, bore, bother, anoth, cooki, cutter, movi, kind, buy, someth, origin, save, money, movi done, done differ, differ actor, actor differ, differ director, director plot, plot stale, stale gotten, gotten extrem, extrem bore, bore bother, bother anoth, anoth cooki, cooki cutter, cutter movi, movi kind, kind buy, buy someth, someth origin, origin save, save money]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00005A3L1:uneducated_opinion:thomas_j._smith	I bought this as a complete novice to the sport?? of metal detecting.  I bought it with the intention of locating a few property stakes and maybe finding some valuable treasures in my yard.  To date I have found neither.  I would chalk this up to my inexperiece and to the fact that I have not gotten out and used it nearly as much as I imagined I would.  Everything I have read about this particular detector indicated it was an introductory model that works reasonably well.  I would agree	4.0
+  words = [bought, complet, novic, sport, metal, detect, bought, intent, locat, properti, stake, mayb, find, valuabl, treasur, yard, date, found, neither, would, chalk, inexperiec, fact, gotten, use, nearli, much, imagin, would, everyth, read, particular, detector, indic, introductori, model, work, reason, well, would, agre, bought complet, complet novic, novic sport, sport metal, metal detect, detect bought, bought intent, intent locat, locat properti, properti stake, stake mayb, mayb find, find valuabl, valuabl treasur, treasur yard, yard date, date found, found neither, neither would, would chalk, chalk inexperiec, inexperiec fact, fact gotten, gotten use, use nearli, nearli much, much imagin, imagin would, would everyth, everyth read, read particular, particular detector, detector indic, indic introductori, introductori model, model work, work reason, reason well, well would, would agre]
+  predicted label = 1, expected label = 1
+
+================================
+You guessed 1299/2000 = 64.95% correct.
+  - False positive rate: [0.0, 0.5434782608695652, 1.0]
+  - True positive rate: [0.0, 0.7992895204262878, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.627905629778
+================================
+
+Running model 'dt' on train data 'reviews.all1.train' and test data 'reviews.all1.test'
+------------------------------------------------------------------------
+Classifying line:
+  346559	These are the best memory cards you can get for the PS2.  Only get this one or the Sony PlayStation 2 1PK Memory Card.  Rumors spread that non-Sony memory cards can damage your PS2 and lose saves on you memory cards	5.0
+  words = [best, memori, card, get, get, one, soni, playstat, memori, card, rumor, spread, non, soni, memori, card, damag, lose, save, memori, card, best memori, memori card, card get, get get, get one, one soni, soni playstat, playstat memori, memori card, card rumor, rumor spread, spread non, non soni, soni memori, memori card, card damag, damag lose, lose save, save memori, memori card]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00029ZE2S:satisfactory_but_too_slow.:satish_seshadri	This DVR works ok.  But when it is recording, forget about changing channels.  It is really really slow and takes like forever to even receive any remote clicks.	2.0
+  words = [dvr, work, ok, record, forget, chang, channel, realli, realli, slow, take, like, forev, even, receiv, remot, click, dvr work, work ok, ok record, record forget, forget chang, chang channel, channel realli, realli realli, realli slow, slow take, take like, like forev, forev even, even receiv, receiv remot, remot click]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000HL0ET4:unbox_video_not_yet_working:paul_i._allen_"paul"	Will not play once video was downloaded. I get the error message:  "can not play file, please try again later. error# 0x80040273" I made the exlusive give me call me back feature but the UnBox department was already closed, I was told the UnBox Saturday and Sunday 6-5 hours. I have to say I am impressed with the Call back feature. I downloaded the Unbox Beta now and am recieving email assistance to try to resolve the problem. Thanks Amazon UnBox! I will Update again - Feb. 10,200	1.0
+  words = [play, video, download, get, error, messag, play, file, pleas, tri, later, error, made, exlus, give, call, back, featur, unbox, depart, alreadi, close, told, unbox, saturday, sunday, hour, say, impress, call, back, featur, download, unbox, beta, reciev, email, assist, tri, resolv, problem, thank, amazon, unbox, updat, feb, play video, video download, download get, get error, error messag, messag play, play file, file pleas, pleas tri, tri later, later error, error made, made exlus, exlus give, give call, call back, back featur, featur unbox, unbox depart, depart alreadi, alreadi close, close told, told unbox, unbox saturday, saturday sunday, sunday hour, hour say, say impress, impress call, call back, back featur, featur download, download unbox, unbox beta, beta reciev, reciev email, email assist, assist tri, tri resolv, resolv problem, problem thank, thank amazon, amazon unbox, unbox updat, updat feb]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00094HPVO:great_cover-_save_yourself_$$$:kindra	This is a very easy to use cloth diaper cover and we have very few leaks- I had more leaks with disposables.  We are using these on our newborn and will continue to use them in the larger sizes.  I am very happy with all the money we are saving by using cloth, and delighted with the ease of use of this product.	5.0
+  words = [easi, use, cloth, diaper, cover, leak, leak, dispos, use, newborn, continu, use, larger, size, happi, money, save, use, cloth, delight, eas, use, product, easi use, use cloth, cloth diaper, diaper cover, cover leak, leak leak, leak dispos, dispos use, use newborn, newborn continu, continu use, use larger, larger size, size happi, happi money, money save, save use, use cloth, cloth delight, delight eas, eas use, use product]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00068O22S:terrible!!!!:ewa_j._majerowicz	I just bought the knobs and they are terrible!!!!  I have so much trouble opening them.   DO NOT BUY IT!!!!  IT'S A WASTE OF MONEY,  it's better to just remove all knobs off your stove and use one when you need it.	1.0
+  words = [bought, knob, terribl, much, troubl, open, buy, wast, money, better, remov, knob, stove, use, one, need, bought knob, knob terribl, terribl much, much troubl, troubl open, open buy, buy wast, wast money, money better, better remov, remov knob, knob stove, stove use, use one, one need]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00007AJFJ:spongebob_and_patrick:	spongebob's house party	1.0
+  words = [spongebob, hous, parti, spongebob hous, hous parti]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  454025	I am really liking this magazine already because it focuses particularly on multicultural and biracial marriages, brides, grooms, weddings, everything!	4.0
+  words = [realli, like, magazin, alreadi, focu, particularli, multicultur, biraci, marriag, bride, groom, wed, everyth, realli like, like magazin, magazin alreadi, alreadi focu, focu particularli, particularli multicultur, multicultur biraci, biraci marriag, marriag bride, bride groom, groom wed, wed everyth]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000M3HVLQ:excellent_for_amateur_like_me_-much_like_an_upgraded_hc90_:thomas_gull_"tom_gull"	This just arrived Thursday so these comments come with minimal time on camera so far. I am also absolutely an amateur user of camcorders so I won't be able to comment on the quality of the manual controls, etc.	5.0
+  words = [arriv, thursday, comment, come, minim, time, camera, far, also, absolut, amateur, user, camcord, abl, comment, qualiti, manual, control, etc, arriv thursday, thursday comment, comment come, come minim, minim time, time camera, camera far, far also, also absolut, absolut amateur, amateur user, user camcord, camcord abl, abl comment, comment qualiti, qualiti manual, manual control, control etc]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00008DDXK:just_another_dumb_preppie_vs._nerd_movie:	This movie has been done over and over again, with different actors and by different directors, but the plot is stale and has gotten extremely boring.  Don't bother with another cookie cutter movie of this kind.... buy something original or save your money	1.0
+  words = [movi, done, differ, actor, differ, director, plot, stale, gotten, extrem, bore, bother, anoth, cooki, cutter, movi, kind, buy, someth, origin, save, money, movi done, done differ, differ actor, actor differ, differ director, director plot, plot stale, stale gotten, gotten extrem, extrem bore, bore bother, bother anoth, anoth cooki, cooki cutter, cutter movi, movi kind, kind buy, buy someth, someth origin, origin save, save money]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00005A3L1:uneducated_opinion:thomas_j._smith	I bought this as a complete novice to the sport?? of metal detecting.  I bought it with the intention of locating a few property stakes and maybe finding some valuable treasures in my yard.  To date I have found neither.  I would chalk this up to my inexperiece and to the fact that I have not gotten out and used it nearly as much as I imagined I would.  Everything I have read about this particular detector indicated it was an introductory model that works reasonably well.  I would agree	4.0
+  words = [bought, complet, novic, sport, metal, detect, bought, intent, locat, properti, stake, mayb, find, valuabl, treasur, yard, date, found, neither, would, chalk, inexperiec, fact, gotten, use, nearli, much, imagin, would, everyth, read, particular, detector, indic, introductori, model, work, reason, well, would, agre, bought complet, complet novic, novic sport, sport metal, metal detect, detect bought, bought intent, intent locat, locat properti, properti stake, stake mayb, mayb find, find valuabl, valuabl treasur, treasur yard, yard date, date found, found neither, neither would, would chalk, chalk inexperiec, inexperiec fact, fact gotten, gotten use, use nearli, nearli much, much imagin, imagin would, would everyth, everyth read, read particular, particular detector, detector indic, indic introductori, introductori model, model work, work reason, reason well, well would, would agre]
+  predicted label = 0, expected label = 1
+
+================================
+You guessed 1249/2000 = 62.45% correct.
+  - False positive rate: [0.0, 0.43592677345537756, 1.0]
+  - True positive rate: [0.0, 0.6714031971580817, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.617738211851
+================================
+
+Running model 'rf' on train data 'reviews.all1.train' and test data 'reviews.all1.test'
+------------------------------------------------------------------------
+Classifying line:
+  346559	These are the best memory cards you can get for the PS2.  Only get this one or the Sony PlayStation 2 1PK Memory Card.  Rumors spread that non-Sony memory cards can damage your PS2 and lose saves on you memory cards	5.0
+  words = [best, memori, card, get, get, one, soni, playstat, memori, card, rumor, spread, non, soni, memori, card, damag, lose, save, memori, card, best memori, memori card, card get, get get, get one, one soni, soni playstat, playstat memori, memori card, card rumor, rumor spread, spread non, non soni, soni memori, memori card, card damag, damag lose, lose save, save memori, memori card]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00029ZE2S:satisfactory_but_too_slow.:satish_seshadri	This DVR works ok.  But when it is recording, forget about changing channels.  It is really really slow and takes like forever to even receive any remote clicks.	2.0
+  words = [dvr, work, ok, record, forget, chang, channel, realli, realli, slow, take, like, forev, even, receiv, remot, click, dvr work, work ok, ok record, record forget, forget chang, chang channel, channel realli, realli realli, realli slow, slow take, take like, like forev, forev even, even receiv, receiv remot, remot click]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B000HL0ET4:unbox_video_not_yet_working:paul_i._allen_"paul"	Will not play once video was downloaded. I get the error message:  "can not play file, please try again later. error# 0x80040273" I made the exlusive give me call me back feature but the UnBox department was already closed, I was told the UnBox Saturday and Sunday 6-5 hours. I have to say I am impressed with the Call back feature. I downloaded the Unbox Beta now and am recieving email assistance to try to resolve the problem. Thanks Amazon UnBox! I will Update again - Feb. 10,200	1.0
+  words = [play, video, download, get, error, messag, play, file, pleas, tri, later, error, made, exlus, give, call, back, featur, unbox, depart, alreadi, close, told, unbox, saturday, sunday, hour, say, impress, call, back, featur, download, unbox, beta, reciev, email, assist, tri, resolv, problem, thank, amazon, unbox, updat, feb, play video, video download, download get, get error, error messag, messag play, play file, file pleas, pleas tri, tri later, later error, error made, made exlus, exlus give, give call, call back, back featur, featur unbox, unbox depart, depart alreadi, alreadi close, close told, told unbox, unbox saturday, saturday sunday, sunday hour, hour say, say impress, impress call, call back, back featur, featur download, download unbox, unbox beta, beta reciev, reciev email, email assist, assist tri, tri resolv, resolv problem, problem thank, thank amazon, amazon unbox, unbox updat, updat feb]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00094HPVO:great_cover-_save_yourself_$$$:kindra	This is a very easy to use cloth diaper cover and we have very few leaks- I had more leaks with disposables.  We are using these on our newborn and will continue to use them in the larger sizes.  I am very happy with all the money we are saving by using cloth, and delighted with the ease of use of this product.	5.0
+  words = [easi, use, cloth, diaper, cover, leak, leak, dispos, use, newborn, continu, use, larger, size, happi, money, save, use, cloth, delight, eas, use, product, easi use, use cloth, cloth diaper, diaper cover, cover leak, leak leak, leak dispos, dispos use, use newborn, newborn continu, continu use, use larger, larger size, size happi, happi money, money save, save use, use cloth, cloth delight, delight eas, eas use, use product]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00068O22S:terrible!!!!:ewa_j._majerowicz	I just bought the knobs and they are terrible!!!!  I have so much trouble opening them.   DO NOT BUY IT!!!!  IT'S A WASTE OF MONEY,  it's better to just remove all knobs off your stove and use one when you need it.	1.0
+  words = [bought, knob, terribl, much, troubl, open, buy, wast, money, better, remov, knob, stove, use, one, need, bought knob, knob terribl, terribl much, much troubl, troubl open, open buy, buy wast, wast money, money better, better remov, remov knob, knob stove, stove use, use one, one need]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00007AJFJ:spongebob_and_patrick:	spongebob's house party	1.0
+  words = [spongebob, hous, parti, spongebob hous, hous parti]
+  predicted label = 1, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  454025	I am really liking this magazine already because it focuses particularly on multicultural and biracial marriages, brides, grooms, weddings, everything!	4.0
+  words = [realli, like, magazin, alreadi, focu, particularli, multicultur, biraci, marriag, bride, groom, wed, everyth, realli like, like magazin, magazin alreadi, alreadi focu, focu particularli, particularli multicultur, multicultur biraci, biraci marriag, marriag bride, bride groom, groom wed, wed everyth]
+  predicted label = 0, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B000M3HVLQ:excellent_for_amateur_like_me_-much_like_an_upgraded_hc90_:thomas_gull_"tom_gull"	This just arrived Thursday so these comments come with minimal time on camera so far. I am also absolutely an amateur user of camcorders so I won't be able to comment on the quality of the manual controls, etc.	5.0
+  words = [arriv, thursday, comment, come, minim, time, camera, far, also, absolut, amateur, user, camcord, abl, comment, qualiti, manual, control, etc, arriv thursday, thursday comment, comment come, come minim, minim time, time camera, camera far, far also, also absolut, absolut amateur, amateur user, user camcord, camcord abl, abl comment, comment qualiti, qualiti manual, manual control, control etc]
+  predicted label = 1, expected label = 1
+------------------------------------------------------------------------
+Classifying line:
+  B00008DDXK:just_another_dumb_preppie_vs._nerd_movie:	This movie has been done over and over again, with different actors and by different directors, but the plot is stale and has gotten extremely boring.  Don't bother with another cookie cutter movie of this kind.... buy something original or save your money	1.0
+  words = [movi, done, differ, actor, differ, director, plot, stale, gotten, extrem, bore, bother, anoth, cooki, cutter, movi, kind, buy, someth, origin, save, money, movi done, done differ, differ actor, actor differ, differ director, director plot, plot stale, stale gotten, gotten extrem, extrem bore, bore bother, bother anoth, anoth cooki, cooki cutter, cutter movi, movi kind, kind buy, buy someth, someth origin, origin save, save money]
+  predicted label = 0, expected label = 0
+------------------------------------------------------------------------
+Classifying line:
+  B00005A3L1:uneducated_opinion:thomas_j._smith	I bought this as a complete novice to the sport?? of metal detecting.  I bought it with the intention of locating a few property stakes and maybe finding some valuable treasures in my yard.  To date I have found neither.  I would chalk this up to my inexperiece and to the fact that I have not gotten out and used it nearly as much as I imagined I would.  Everything I have read about this particular detector indicated it was an introductory model that works reasonably well.  I would agree	4.0
+  words = [bought, complet, novic, sport, metal, detect, bought, intent, locat, properti, stake, mayb, find, valuabl, treasur, yard, date, found, neither, would, chalk, inexperiec, fact, gotten, use, nearli, much, imagin, would, everyth, read, particular, detector, indic, introductori, model, work, reason, well, would, agre, bought complet, complet novic, novic sport, sport metal, metal detect, detect bought, bought intent, intent locat, locat properti, properti stake, stake mayb, mayb find, find valuabl, valuabl treasur, treasur yard, yard date, date found, found neither, neither would, would chalk, chalk inexperiec, inexperiec fact, fact gotten, gotten use, use nearli, nearli much, much imagin, imagin would, would everyth, everyth read, read particular, particular detector, detector indic, indic introductori, introductori model, model work, work reason, reason well, well would, would agre]
+  predicted label = 0, expected label = 1
+
+================================
+You guessed 1307/2000 = 65.35% correct.
+  - False positive rate: [0.0, 0.39816933638443935, 1.0]
+  - True positive rate: [0.0, 0.6936056838365897, 1.0]
+  - Thresholds: [2, 1, 0]
+  - AUC: 0.647718173726
+================================
+

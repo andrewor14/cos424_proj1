@@ -4,6 +4,8 @@ from preprocessSentences import clean_word, clean_words, parse_example
 
 import argparse
 import numpy as np
+from sklearn.naive_bayes import BernoulliNB, MultinomialNB
+from sklearn.svm import SVC
 import sys
 
 def main():
@@ -19,8 +21,7 @@ def main():
   train_labels = []
   with open(args.train, "r") as f:
     for line in f.readlines():
-      rating = int(float(line.split()[-1]))
-      train_labels += [1 if rating > 3 else 0]
+      train_labels += [rating_to_label(line.split()[-1])]
 
   # Build vocabs list from train dataset
   vocabs = []
@@ -29,33 +30,28 @@ def main():
       vocabs += [clean_word(line.decode("utf-8-sig"))]
 
   # Do the classifying
-  if args.model == 'bnb':
+  name_to_model = {
+    'bnb': lambda: BernoulliNB(),
+    'mnb': lambda: MultinomialNB(),
+    'svm': lambda: SVC()
+  }
+  if args.model in name_to_model:
+    sk_model(train_labels, args.bow, vocabs, args.test, name_to_model[args.model]())
+  elif args.model == 'mybnb':
     bernoulli_naive_bayes(train_labels, args.bow, vocabs, args.test)
-  elif args.model == 'mnb':
+  elif args.model == 'mymnb':
     multinomial_naive_bayes(train_labels, args.bow, vocabs, args.test)
-  elif args.model == 'skbnb':
-    sk_bernoulli_naive_bayes(train_labels, args.bow, vocabs, args.test)
-  elif args.model == 'skmnb':
-    sk_multinomial_naive_bayes(train_labels, args.bow, vocabs, args.test)
   else:
     raise Exception("Unknown model '%s' % args.model")
 
-def sk_bernoulli_naive_bayes(train_labels, bow_file, vocabs, test_file):
-  sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=True)
-
-def sk_multinomial_naive_bayes(train_labels, bow_file, vocabs, test_file):
-  sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=False)
-
-def sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
+def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = []
   with open(bow_file, "r") as f:
     for line in f.readlines():
       bow_data += [[int(v) for v in line.split(",")]]
   train_labels = np.array(train_labels)
   bow_data = np.array(bow_data)
-  from sklearn.naive_bayes import BernoulliNB, MultinomialNB
-  clf = BernoulliNB() if bernoulli else MultinomialNB()
-  clf.fit(bow_data, train_labels)
+  model.fit(bow_data, train_labels)
   # Test it!
   vocab_index = {}
   log_threshold = 10
@@ -75,7 +71,7 @@ def sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
           word_vector[index] += 1
       word_vector = np.array(word_vector)
       # Do the prediction
-      predicted_label = clf.predict([word_vector])[0]
+      predicted_label = model.predict([word_vector])[0]
       if predicted_label == expected_label:
         num_test_correct += 1
       num_test_examples += 1
@@ -170,7 +166,8 @@ def manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
   print_result(num_test_correct, num_test_examples)
 
 def rating_to_label(rating):
-  return 1 if int(float(rating)) > 3 else 0
+  #return 1 if int(float(rating)) > 3 else 0
+  return int(rating)
 
 def print_classify_example(line, words, predicted_label, expected_label, extra=""):
   print "------------------------------------------------------------------------"

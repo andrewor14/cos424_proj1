@@ -1,8 +1,8 @@
 biased amazon reviews, 75% feature selection:
-- skbnb = 5765/7710
-- skmnb = 5734/7710
-- bnb = 5875/7710
-- mnb = 5692/7710
+- bnb = 5765/7710
+- mnb = 5734/7710
+- mybnb = 5875/7710
+- mymnb = 5692/7710
 
 Download amazon data here:
 http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
@@ -10,11 +10,20 @@ http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
 --------------------------------------------------------------------------------
 
 2% twitter data, 75% feature selection:
-- skbnb = 4490/6315
-- skmnb = 4387/6315
-- bnb = 4469/6315
-- mnb = 4470/6315
+- bnb = 4490/6315
+- mnb = 4387/6315
+- mybnb = 4469/6315
+- mymnb = 4470/6315
 
 Download twitter data here:
 http://thinknook.com/wp-content/uploads/2012/09/Sentiment-Analysis-Dataset.zip
+
+--------------------------------------------------------------------------------
+
+default dataset, 75% feature selection:
+- svm = 349/600
+- bnb = 466/600
+- mnb = 465/600
+- mybnb = 456/600
+- mymnb = 456/600
 

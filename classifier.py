@@ -4,11 +4,13 @@ from preprocessSentences import add_bigrams, clean_word, clean_words, parse_exam
 
 import argparse
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
 import sys
+
 
 def main():
   parser = argparse.ArgumentParser()
@@ -35,7 +37,7 @@ def main():
   name_to_model = {
     'bnb': lambda: BernoulliNB(),
     'mnb': lambda: MultinomialNB(),
-    'svm': lambda: SVC(),
+    'svm': lambda: make_svm_model(),
     'dt': lambda: DecisionTreeClassifier(),
     'rf': lambda: RandomForestClassifier()
   }
@@ -48,6 +50,14 @@ def main():
   else:
     raise Exception("Unknown model '%s' % args.model")
 
+def make_svm_model():
+  #param_grid = [\
+  #  {'C': [1, 10, 100, 1000], 'kernel': ['linear']},\
+  #  {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']}
+  #]
+  param_grid = [{'C':[1, 10, 100], 'kernel':['linear', 'rbf']}]
+  return GridSearchCV(SVC(), param_grid)
+
 def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = []
   with open(bow_file, "r") as f:
@@ -56,6 +66,9 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
   train_labels = np.array(train_labels)
   bow_data = np.array(bow_data)
   model.fit(bow_data, train_labels)
+  # If we're running SVM, print the best parameters that we ended up using
+  if type(model) is GridSearchCV:
+    print "Best hyperparameters for SVM were: %s" % model.best_params_
   # Test it!
   vocab_index = {}
   log_threshold = 10

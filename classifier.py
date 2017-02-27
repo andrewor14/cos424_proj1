@@ -22,6 +22,9 @@ def main():
   parser.add_argument("-m", "--model", help="model", required=True)
   args = parser.parse_args()
 
+  print "Running model '%s' on train data '%s' and test data '%s'" %\
+    (args.model, args.train, args.test)
+
   # Build labels
   train_labels = []
   with open(args.train, "r") as f:

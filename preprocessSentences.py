@@ -180,6 +180,7 @@ def main(argv):
   total_documents = len(all_document_words)
 
   print "Done building things up man. Num documents in train set: %s." % total_documents
+  print "Number of features before any feature selection: %s" % len(count_by_word)
 
   def computeCPD(word):
     pos_freq = pos_documents_by_word[word] if word in pos_documents_by_word else 0
@@ -190,6 +191,7 @@ def main(argv):
   for word, count in count_by_word.items():
     if count < word_count_threshold:
       del count_by_word[word]
+  print "Number of features after filtering out words by count threshold: %s" % len(count_by_word)
   vocabs = sorted(count_by_word.keys(), key=computeCPD, reverse=True)
   max_num_features = min(int(len(vocabs) * 0.9), 3000)
   vocabs = vocabs[:max_num_features]

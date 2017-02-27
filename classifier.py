@@ -8,7 +8,7 @@ from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
 from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 import sys
 
@@ -60,7 +60,7 @@ def make_svm_model():
   #  {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']}
   #]
   param_grid = [{'C':[0.1, 1, 10, 100]}]
-  return GridSearchCV(BaggingClassifier(SVC(kernel='linear', class_weight='auto'), n_jobs=4), param_grid)
+  return BaggingClassifier(GridSearchCV(LinearSVC(verbose=True), param_grid), n_jobs=4)
 
 def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = []
@@ -71,7 +71,7 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = np.array(bow_data)
   model.fit(bow_data, train_labels)
   # If we're running SVM, print the best parameters that we ended up using
-  if type(model) is GridSearchCV:
+  if type(model) is BaggingClassifier:
     print "Best hyperparameters for SVM were: %s" % model.best_params_
   # Test it!
   vocab_index = {}
@@ -200,10 +200,11 @@ def print_result(predicted_labels, expected_labels):
   for i in range(len(predicted_labels)):
     if predicted_labels[i] == expected_labels[i]:
       num_correct += 1
+  percent_correct = float(num_correct) * 100 / len(expected_labels)
   false_positive_rate, true_positive_rate, thresholds = roc_curve(expected_labels, predicted_labels)
   roc_auc = auc(false_positive_rate, true_positive_rate)
   print "\n================================"
-  print "You guessed %s/%s correct." % (num_correct, len(expected_labels))
+  print "You guessed %s/%s = %s%% correct." % (num_correct, len(expected_labels), percent_correct)
   print "  - False positive rate: %s" % false_positive_rate.tolist()
   print "  - True positive rate: %s" % true_positive_rate.tolist()
   print "  - Thresholds: %s" % thresholds.tolist()

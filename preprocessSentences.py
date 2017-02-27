@@ -164,6 +164,7 @@ def main(argv):
   neg_documents_by_word = {}
   all_document_words = [] # each element is a list of words in a particular document
   word_count_threshold = 5
+  train_labels = []
   with open(traintxt, "r") as train_data:
     for i, line in enumerate(train_data.readlines()):
       split = line.strip().split()
@@ -171,6 +172,7 @@ def main(argv):
       tokens = add_bigrams(tokens)
       all_document_words += [tokens]
       label = int(float(split[-1]))
+      train_labels += [label]
       for token in tokens:
         count_by_word[token] = (count_by_word.get(token) or 0) + 1
       for token in list(set(tokens)):
@@ -182,29 +184,17 @@ def main(argv):
   print "Done building things up man. Num documents in train set: %s." % total_documents
   print "Number of features before any feature selection: %s" % len(count_by_word)
 
-  def computeCPD(word):
-    pos_freq = pos_documents_by_word[word] if word in pos_documents_by_word else 0
-    neg_freq = neg_documents_by_word[word] if word in neg_documents_by_word else 0
-    return float(abs(pos_freq - neg_freq)) / (pos_freq + neg_freq)
-
-  # Filter out some features, first by total count and then by CPD score
+  # Filter out some features by count threshold
   for word, count in count_by_word.items():
     if count < word_count_threshold:
       del count_by_word[word]
   print "Number of features after filtering out words by count threshold: %s" % len(count_by_word)
-  vocabs = sorted(count_by_word.keys(), key=computeCPD, reverse=True)
-  max_num_features = min(int(len(vocabs) * 0.9), 3000)
-  vocabs = vocabs[:max_num_features]
 
-  print "Done doing the feature selection thing man. Num vocabs: %s." % len(vocabs)
-
-  # Write vocab file
-  vocab_file_name = outputf+"_vocab_"+str(word_count_threshold)+".txt"
-  with codecs.open(path+"/"+vocab_file_name, "w","utf-8-sig") as f:
-    f.write("\n".join(vocabs))
-
-  # Write bag of words file
-  bow_file_name = path+"/"+outputf+"_bag_of_words_"+str(word_count_threshold)+".csv"
+  # Feature selection using chi2
+  import numpy as np
+  from sklearn.feature_selection import SelectKBest
+  from sklearn.feature_selection import chi2
+  vocabs = count_by_word.keys()
   bow_data = numpy.zeros(shape=(total_documents, len(vocabs)), dtype=numpy.uint8)
   vocab_index = {}
   for i, vocab in enumerate(vocabs):
@@ -214,6 +204,32 @@ def main(argv):
       index = vocab_index.get(token)
       if index > 0:
         bow_data[i, index] = bow_data[i, index] + 1
+  k = min(int(len(vocabs) * 0.9), 5000)
+  select = SelectKBest(chi2, k)
+  bow_data = select.fit_transform(bow_data, np.array(train_labels))
+  new_vocabs = []
+  for i, should_select in enumerate(select.get_support()):
+    if should_select:
+      new_vocabs += [vocabs[i]]
+  vocabs = new_vocabs
+
+  #def computeCPD(word):
+  #  pos_freq = pos_documents_by_word[word] if word in pos_documents_by_word else 0
+  #  neg_freq = neg_documents_by_word[word] if word in neg_documents_by_word else 0
+  #  return float(abs(pos_freq - neg_freq)) / (pos_freq + neg_freq)
+  #vocabs = sorted(count_by_word.keys(), key=computeCPD, reverse=True)
+  #max_num_features = min(int(len(vocabs) * 0.9), 3000)
+  #vocabs = vocabs[:max_num_features]
+
+  print "Done doing the feature selection thing man. Num vocabs: %s." % len(vocabs)
+
+  # Write vocab file
+  vocab_file_name = outputf+"_vocab_"+str(word_count_threshold)+".txt"
+  with codecs.open(path+"/"+vocab_file_name, "w","utf-8-sig") as f:
+    f.write("\n".join(vocabs))
+
+  # Write bag of words file
+  bow_file_name = outputf+"_bag_of_words_"+str(word_count_threshold)+".csv"
   with open(bow_file_name, "wb") as f:
     writer = csv.writer(f)
     writer.writerows(bow_data)

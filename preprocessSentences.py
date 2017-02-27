@@ -164,7 +164,7 @@ def main(argv):
       split = line.strip().split()
       tokens = clean_words(split[1:-1])
       all_document_words += [tokens]
-      label = int(split[-1])
+      label = int(float(split[-1]))
       for token in tokens:
         count_by_word[token] = (count_by_word.get(token) or 0) + 1
       for token in list(set(tokens)):

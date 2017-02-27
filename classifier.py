@@ -15,6 +15,13 @@ def main():
   parser.add_argument("-m", "--model", help="model", required=True)
   args = parser.parse_args()
 
+  # Build labels
+  train_labels = []
+  with open(args.train, "r") as f:
+    for line in f.readlines():
+      rating = int(float(line.split()[-1]))
+      train_labels += [1 if rating > 3 else 0]
+
   # Build vocabs list from train dataset
   vocabs = []
   with open(args.vocab, "r") as f:
@@ -23,28 +30,24 @@ def main():
 
   # Do the classifying
   if args.model == 'bnb':
-    bernoulli_naive_bayes(args.train, args.bow, vocabs, args.test)
+    bernoulli_naive_bayes(train_labels, args.bow, vocabs, args.test)
   elif args.model == 'mnb':
-    multinomial_naive_bayes(args.train, args.bow, vocabs, args.test)
+    multinomial_naive_bayes(train_labels, args.bow, vocabs, args.test)
   elif args.model == 'skbnb':
-    sk_bernoulli_naive_bayes(args.train, args.bow, vocabs, args.test)
+    sk_bernoulli_naive_bayes(train_labels, args.bow, vocabs, args.test)
   elif args.model == 'skmnb':
-    sk_multinomial_naive_bayes(args.train, args.bow, vocabs, args.test)
+    sk_multinomial_naive_bayes(train_labels, args.bow, vocabs, args.test)
   else:
     raise Exception("Unknown model '%s' % args.model")
 
-def sk_bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
-  sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=True)
+def sk_bernoulli_naive_bayes(train_labels, bow_file, vocabs, test_file):
+  sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=True)
 
-def sk_multinomial_naive_bayes(train_file, bow_file, vocabs, test_file):
-  sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=False)
+def sk_multinomial_naive_bayes(train_labels, bow_file, vocabs, test_file):
+  sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=False)
 
-def sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
-  train_labels = []
+def sk_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
   bow_data = []
-  with open(train_file, "r") as f:
-    for line in f.readlines():
-      train_labels += [int(line.split()[-1])]
   with open(bow_file, "r") as f:
     for line in f.readlines():
       bow_data += [[int(v) for v in line.split(",")]]
@@ -62,7 +65,7 @@ def sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
     vocab_index[word] = i
   with open(test_file, "r") as f:
     for i, line in enumerate(f.readlines()):
-      expected_label = int(line.split()[-1])
+      expected_label = rating_to_label(line.split()[-1])
       # Turn sentences into bag of word vectors
       word_vector = [0] * len(vocabs)
       words = clean_words(parse_example(line).split())
@@ -80,18 +83,14 @@ def sk_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
         print_classify_example(line, words, predicted_label, expected_label)
   print_result(num_test_correct, num_test_examples)
 
-def bernoulli_naive_bayes(train_file, bow_file, vocabs, test_file):
-  manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=True)
+def bernoulli_naive_bayes(train_labels, bow_file, vocabs, test_file):
+  manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=True)
 
-def multinomial_naive_bayes(train_file, bow_file, vocabs, test_file):
-  manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli=False)
+def multinomial_naive_bayes(train_labels, bow_file, vocabs, test_file):
+  manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=False)
 
-def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
+def manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
   # Calculate prior
-  train_labels = []
-  with open(train_file, "r") as f:
-    for line in f.readlines():
-      train_labels += [int(line.split()[-1])]
   num_train_examples = len(train_labels)
   num_train_positive = sum([l for l in train_labels if l == 1])
   num_train_negative = num_train_examples - num_train_positive
@@ -155,7 +154,7 @@ def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
   with open(test_file, "r") as f:
     for i, line in enumerate(f.readlines()):
       words = clean_words(parse_example(line).split())
-      expected_label = int(line.split()[-1])
+      expected_label = rating_to_label(line.split()[-1])
       pos_probability = positive_prior
       neg_probability = negative_prior
       for w in words:
@@ -169,6 +168,9 @@ def manual_naive_bayes(train_file, bow_file, vocabs, test_file, bernoulli):
         prob_string = "  positive probability = %s, negative probability = %s" % (pos_probability, neg_probability)
         print_classify_example(line, words, predicted_label, expected_label, prob_string)
   print_result(num_test_correct, num_test_examples)
+
+def rating_to_label(rating):
+  return 1 if int(float(rating)) > 3 else 0
 
 def print_classify_example(line, words, predicted_label, expected_label, extra=""):
   print "------------------------------------------------------------------------"

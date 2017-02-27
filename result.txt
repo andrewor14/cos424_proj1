@@ -1,3 +1,14 @@
+biased amazon reviews, 75% feature selection:
+- skbnb = 5765/7710
+- skmnb = 5734/7710
+- bnb = 5875/7710
+- mnb = 5692/7710
+
+Download amazon data here:
+http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
+
+--------------------------------------------------------------------------------
+
 2% twitter data, 75% feature selection:
 - skbnb = 4490/6315
 - skmnb = 4387/6315

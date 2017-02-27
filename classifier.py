@@ -5,6 +5,7 @@ from preprocessSentences import add_bigrams, clean_word, clean_words, parse_exam
 import argparse
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.svm import SVC
@@ -72,13 +73,12 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
   # Test it!
   vocab_index = {}
   log_threshold = 10
-  num_test_examples = 0
-  num_test_correct = 0
+  predicted_labels = []
+  expected_labels = []
   for i, word in enumerate(vocabs):
     vocab_index[word] = i
   with open(test_file, "r") as f:
     for i, line in enumerate(f.readlines()):
-      expected_label = rating_to_label(line.split()[-1])
       # Turn sentences into bag of word vectors
       word_vector = [0] * len(vocabs)
       words = clean_words(parse_example(line).split())
@@ -89,13 +89,11 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
           word_vector[index] += 1
       word_vector = np.array(word_vector)
       # Do the prediction
-      predicted_label = model.predict([word_vector])[0]
-      if predicted_label == expected_label:
-        num_test_correct += 1
-      num_test_examples += 1
+      predicted_labels += [model.predict([word_vector])[0]]
+      expected_labels += [rating_to_label(line.split()[-1])]
       if i < log_threshold:
-        print_classify_example(line, words, predicted_label, expected_label)
-  print_result(num_test_correct, num_test_examples)
+        print_classify_example(line, words, predicted_labels[i], expected_labels[i])
+  print_result(predicted_labels, expected_labels)
 
 def bernoulli_naive_bayes(train_labels, bow_file, vocabs, test_file):
   manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli=True)
@@ -162,30 +160,28 @@ def manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
     return float(word_count + 1) / (num_train_examples + (2 if bernoulli else num_features))
 
   # Do some classifying!
-  num_test_correct = 0
-  num_test_examples = 0
+  predicted_labels = []
+  expected_labels = []
   log_threshold = 10
   with open(test_file, "r") as f:
     for i, line in enumerate(f.readlines()):
       words = clean_words(parse_example(line).split())
       words = add_bigrams(words)
-      expected_label = rating_to_label(line.split()[-1])
       pos_probability = positive_prior
       neg_probability = negative_prior
       for w in words:
         pos_probability *= compute_likelihood(w, 1)
         neg_probability *= compute_likelihood(w, 0)
-      predicted_label = 1 if pos_probability >= neg_probability else 0
-      if predicted_label == expected_label:
-        num_test_correct += 1
-      num_test_examples += 1
+      predicted_labels += [1 if pos_probability >= neg_probability else 0]
+      expected_labels += [rating_to_label(line.split()[-1])]
       if i < log_threshold:
         prob_string = "  positive probability = %s, negative probability = %s" % (pos_probability, neg_probability)
-        print_classify_example(line, words, predicted_label, expected_label, prob_string)
-  print_result(num_test_correct, num_test_examples)
+        print_classify_example(line, words, predicted_labels[i], expected_labels[i], prob_string)
+  print_result(predicted_labels, expected_labels)
 
 def rating_to_label(rating):
   #return 1 if int(float(rating)) > 3 else 0
+  # TODO: FIX ME BEFORE RUNNING THE AMAZON DATASET!!!
   return int(rating)
 
 def print_classify_example(line, words, predicted_label, expected_label, extra=""):
@@ -197,9 +193,20 @@ def print_classify_example(line, words, predicted_label, expected_label, extra="
     print extra
   print "  predicted label = %s, expected label = %s" % (predicted_label, expected_label)
 
-def print_result(num_test_correct, num_test_examples):
+def print_result(predicted_labels, expected_labels):
+  assert len(predicted_labels) == len(expected_labels)
+  num_correct = 0
+  for i in range(len(predicted_labels)):
+    if predicted_labels[i] == expected_labels[i]:
+      num_correct += 1
+  false_positive_rate, true_positive_rate, thresholds = roc_curve(expected_labels, predicted_labels)
+  roc_auc = auc(false_positive_rate, true_positive_rate)
   print "\n================================"
-  print "You guessed %s/%s correct." % (num_test_correct, num_test_examples)
+  print "You guessed %s/%s correct." % (num_correct, len(expected_labels))
+  print "  - False positive rate: %s" % false_positive_rate.tolist()
+  print "  - True positive rate: %s" % true_positive_rate.tolist()
+  print "  - Thresholds: %s" % thresholds.tolist()
+  print "  - AUC: %s" % roc_auc
   print "================================\n"
 
 if __name__ == "__main__":

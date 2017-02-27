@@ -4,7 +4,7 @@ from preprocessSentences import add_bigrams, clean_word, clean_words, parse_exam
 
 import argparse
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
 from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
@@ -59,8 +59,8 @@ def make_svm_model():
   #  {'C': [1, 10, 100, 1000], 'kernel': ['linear']},\
   #  {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']}
   #]
-  param_grid = [{'C':[1, 10, 100], 'kernel':['linear', 'rbf']}]
-  return GridSearchCV(SVC(), param_grid)
+  param_grid = [{'C':[0.1, 1, 10, 100]}]
+  return GridSearchCV(BaggingClassifier(SVC(kernel='linear', class_weight='auto'), n_jobs=4), param_grid)
 
 def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = []

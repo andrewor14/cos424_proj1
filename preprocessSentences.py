@@ -67,6 +67,10 @@ def clean_word(word):
 def clean_words(tokens):
   return [clean_word(w) for w in tokens if w.lower() not in stop_words and w.isalpha()]
 
+def add_bigrams(tokens):
+  bigrams = ["%s %s" % (tokens[i], tokens[i+1]) for i in range(len(tokens) - 1)]
+  return tokens + bigrams
+
 def tokenize_corpus(path, train=True):
   classes = []
   samples = []
@@ -81,6 +85,7 @@ def tokenize_corpus(path, train=True):
     samples.append(line.rsplit()[0])
     raw = parse_example(line)
     tokens = clean_words(word_tokenize(raw))
+    tokens = add_bigrams(tokens)
     if train == True:
      for t in tokens: 
          try:
@@ -163,6 +168,7 @@ def main(argv):
     for i, line in enumerate(train_data.readlines()):
       split = line.strip().split()
       tokens = clean_words(split[1:-1])
+      tokens = add_bigrams(tokens)
       all_document_words += [tokens]
       label = int(float(split[-1]))
       for token in tokens:
@@ -185,7 +191,8 @@ def main(argv):
     if count < word_count_threshold:
       del count_by_word[word]
   vocabs = sorted(count_by_word.keys(), key=computeCPD, reverse=True)
-  vocabs = vocabs[:int(len(vocabs) * 0.75)]
+  max_num_features = min(int(len(vocabs) * 0.9), 3000)
+  vocabs = vocabs[:max_num_features]
 
   print "Done doing the feature selection thing man. Num vocabs: %s." % len(vocabs)
 

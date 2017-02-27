@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from preprocessSentences import clean_word, clean_words, parse_example
+from preprocessSentences import add_bigrams, clean_word, clean_words, parse_example
 
 import argparse
 import numpy as np
@@ -65,6 +65,7 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
       # Turn sentences into bag of word vectors
       word_vector = [0] * len(vocabs)
       words = clean_words(parse_example(line).split())
+      words = add_bigrams(words)
       for word in words:
         index = vocab_index.get(word)
         if index > 0:
@@ -150,6 +151,7 @@ def manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
   with open(test_file, "r") as f:
     for i, line in enumerate(f.readlines()):
       words = clean_words(parse_example(line).split())
+      words = add_bigrams(words)
       expected_label = rating_to_label(line.split()[-1])
       pos_probability = positive_prior
       neg_probability = negative_prior

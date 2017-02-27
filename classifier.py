@@ -180,9 +180,7 @@ def manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
   print_result(predicted_labels, expected_labels)
 
 def rating_to_label(rating):
-  #return 1 if int(float(rating)) > 3 else 0
-  # TODO: FIX ME BEFORE RUNNING THE AMAZON DATASET!!!
-  return int(rating)
+  return 1 if int(float(rating)) > 3 else 0
 
 def print_classify_example(line, words, predicted_label, expected_label, extra=""):
   print "------------------------------------------------------------------------"

@@ -22,6 +22,8 @@ http://thinknook.com/wp-content/uploads/2012/09/Sentiment-Analysis-Dataset.zip
 
 default dataset, 90% feature selection (432 features):
 - svm = 330/600
+- dt = 450/600
+- rf = 454/600
 - bnb = 462/600
 - mnb = 461/600
 - mybnb = 458/600
@@ -31,6 +33,8 @@ default dataset, 90% feature selection (432 features):
 
 default dataset, 90% feature selection, bigrams (450 features):
 - svm = 322/600
+- dt = 451/600
+- rf = 456/600
 - bnb = 465/600
 - mnb = 462/600
 - mybnb = 458/600

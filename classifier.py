@@ -6,6 +6,8 @@ import argparse
 import numpy as np
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 import sys
 
 def main():
@@ -33,7 +35,9 @@ def main():
   name_to_model = {
     'bnb': lambda: BernoulliNB(),
     'mnb': lambda: MultinomialNB(),
-    'svm': lambda: SVC()
+    'svm': lambda: SVC(),
+    'dt': lambda: DecisionTreeClassifier(),
+    'rf': lambda: RandomForestClassifier()
   }
   if args.model in name_to_model:
     sk_model(train_labels, args.bow, vocabs, args.test, name_to_model[args.model]())

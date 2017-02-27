@@ -14,7 +14,7 @@ reviews_for_testing = "reviews.test"
 
 def parse_reviews(review_file):
   '''
-  Return a list of reviews in the format "<ID> <review text> <rating>"
+  Return a list of reviews in the format "<ID> <review text> <label>"
   '''
   print "  ... parsing reviews in %s" % review_file
   all_reviews = []
@@ -26,9 +26,9 @@ def parse_reviews(review_file):
       line = lines[i].strip()
       if line == "<unique_id>": unique_id = lines[i+1].strip()
       if line == "<review_text>": review_text = lines[i+1].strip()
-      if line == "<rating>": rating = lines[i+1].strip()
+      if line == "<rating>": rating = float(lines[i+1].strip())
       if line == "</review>":
-        all_reviews += ["%s\t%s\t%s" % (unique_id, review_text, rating)]
+        all_reviews += ["%s\t%s\t%s" % (unique_id, review_text, 1 if rating > 3 else 0)]
         unique_id = review_text = rating = None
       i += 1
   return all_reviews

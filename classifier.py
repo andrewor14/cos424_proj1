@@ -29,7 +29,7 @@ def main():
   train_labels = []
   with open(args.train, "r") as f:
     for line in f.readlines():
-      train_labels += [rating_to_label(line.split()[-1])]
+      train_labels += [int(line.split()[-1])]
 
   # Build vocabs list from train dataset
   vocabs = []
@@ -93,7 +93,7 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
       word_vector = np.array(word_vector)
       # Do the prediction
       predicted_labels += [model.predict([word_vector])[0]]
-      expected_labels += [rating_to_label(line.split()[-1])]
+      expected_labels += [int(line.split()[-1])]
       if i < log_threshold:
         print_classify_example(line, words, predicted_labels[i], expected_labels[i])
   print_result(predicted_labels, expected_labels)
@@ -176,14 +176,11 @@ def manual_naive_bayes(train_labels, bow_file, vocabs, test_file, bernoulli):
         pos_probability *= compute_likelihood(w, 1)
         neg_probability *= compute_likelihood(w, 0)
       predicted_labels += [1 if pos_probability >= neg_probability else 0]
-      expected_labels += [rating_to_label(line.split()[-1])]
+      expected_labels += [int(line.split()[-1])]
       if i < log_threshold:
         prob_string = "  positive probability = %s, negative probability = %s" % (pos_probability, neg_probability)
         print_classify_example(line, words, predicted_labels[i], expected_labels[i], prob_string)
   print_result(predicted_labels, expected_labels)
-
-def rating_to_label(rating):
-  return 1 if int(float(rating)) > 3 else 0
 
 def print_classify_example(line, words, predicted_label, expected_label, extra=""):
   print "------------------------------------------------------------------------"

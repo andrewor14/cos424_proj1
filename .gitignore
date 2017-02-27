@@ -3,4 +3,6 @@
 out*
 twitter.csv*
 *.swp
-
+*train
+*test
+*log

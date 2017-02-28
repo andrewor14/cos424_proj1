@@ -42,8 +42,8 @@ def main():
     'bnb': lambda: BernoulliNB(),
     'mnb': lambda: MultinomialNB(),
     'svm': lambda: make_svm_model(),
-    'dt': lambda: DecisionTreeClassifier(),
-    'rf': lambda: RandomForestClassifier()
+    'dt': lambda: make_dt_model(),
+    'rf': lambda: make_rf_model()
   }
   if args.model in name_to_model:
     sk_model(train_labels, args.bow, vocabs, args.test, name_to_model[args.model]())
@@ -53,6 +53,14 @@ def main():
     multinomial_naive_bayes(train_labels, args.bow, vocabs, args.test)
   else:
     raise Exception("Unknown model '%s' % args.model")
+
+def make_dt_model():
+  param_grid = [{'min_samples_leaf':[1, 10], 'max_features':[0.5, 0.75, 'auto']}]
+  return GridSearchCV(DecisionTreeClassifier(), param_grid)
+
+def make_rf_model():
+  param_grid = [{'n_estimators':[10, 100]}]
+  return GridSearchCV(RandomForestClassifier(min_samples_leaf=10, max_features=0.75), param_grid)
 
 def make_svm_model():
   #param_grid = [\
@@ -71,8 +79,8 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
   bow_data = np.array(bow_data)
   model.fit(bow_data, train_labels)
   # If we're running SVM, print the best parameters that we ended up using
-  if type(model) is BaggingClassifier:
-    print "Best hyperparameters for SVM were: %s" % model.best_params_
+  if type(model) is GridSearchCV:
+    print "Best hyperparameters were: %s" % model.best_params_
   # Test it!
   vocab_index = {}
   log_threshold = 10

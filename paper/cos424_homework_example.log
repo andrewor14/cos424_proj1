@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 FEB 2017 15:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 FEB 2017 15:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -399,7 +399,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
  [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 ] [2]
-<dt.png, id=71, 756.8275pt x 431.6125pt>
+<dt.png, id=82, 756.8275pt x 431.6125pt>
 File: dt.png Graphic file (type png)
  <use dt.png>
 Package pdftex.def Info: dt.png used on input line 85.
@@ -410,41 +410,38 @@ Package pdftex.def Info: dt.png used on input line 85.
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.108 
-       <./dt.png>] [4] [5pdfTeX warning (ext4): destination with the same ident
-ifier (name{table.1}) has been already used, duplicate ignored
+       <./dt.png>] [4]
+Overfull \hbox (19.11911pt too wide) in paragraph at lines 179--180
+[]\OT1/ptm/m/n/10 Sentiment Lablled Sen-tences: https://archive.ics.uci.edu/ml/
+datasets/Sentiment+Labelled+Sentences 
+ []
+
+[5pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.180 [
-       ] 'From Group to Individual Labels using Deep Features', Kotzias et. ...
-]
-No file cos424_homework_example.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 198.
-[6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 198.
+l.181 \bibitem{largedataset}
+                            ]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 213.
+ [6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 213.
  (./cos424_homework_example.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 198.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 198.
-
-
-Package rerunfilecheck Warning: File `cos424_homework_example.out' has changed.
-
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `cos424_homework_example.out':
-(rerunfilecheck)             Before: 952533A6F4617FEE915A96F824471251;642
-(rerunfilecheck)             After:  374BE410E335FDD9EDCF01B5EEE4656B;641.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 198.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 213.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 213.
+Package rerunfilecheck Info: File `cos424_homework_example.out' has not changed
+.
+(rerunfilecheck)             Checksum: D82B928F720E2E208C762C104D3E9728;595.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 213.
  ) 
 Here is how much of TeX's memory you used:
- 6819 strings out of 493014
- 97001 string characters out of 6133351
- 195489 words of memory out of 5000000
- 10218 multiletter control sequences out of 15000+600000
+ 6839 strings out of 493014
+ 97330 string characters out of 6133351
+ 195866 words of memory out of 5000000
+ 10228 multiletter control sequences out of 15000+600000
  25715 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,12n,39p,932b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,12n,39p,932b,427s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -460,10 +457,10 @@ exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texmf-dis
 t/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts
 /type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb>
-Output written on cos424_homework_example.pdf (6 pages, 244072 bytes).
+Output written on cos424_homework_example.pdf (6 pages, 245285 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 127 compressed objects within 2 object streams
- 24 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 176 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
+ 35 named destinations out of 1000 (max. 500000)
+ 94 words of extra memory for PDF output out of 10000 (max. 10000000)
 

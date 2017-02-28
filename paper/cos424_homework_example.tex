@@ -31,7 +31,7 @@ Princeton University\\
 
 \begin{abstract}
 
-Customer sentiment is a good prediction of business value. Amazon and many other e-commerce websites rely on reviews to organically filter out unwanted or defective products. While the rating associated with each review is important, the content of the review is also a significant indication of customer interest or lack thereof. In this paper, we analyze sentiments expressed in the text of each review and explore the relationship between these sentiments and the associated rating. We use techniques in text analysis to extract and select features from the dataset and fit the data to a number of classification models. We evaluate these methods on 10,000 biased reviews taken from the Multi-Domain Sentiment Dataset [], which comprises of product reviews collected from Amazon.com across many product types.
+Customer sentiment is a good prediction of business value. Amazon and many other e-commerce websites rely on reviews to organically filter out unwanted or defective products. While the rating associated with each review is important, the content of the review is also a significant indication of customer interest or lack thereof. In this paper, we analyze sentiments expressed in the text of each review and explore the relationship between these sentiments and the associated rating. We use techniques in text analysis to extract and select features from the dataset and fit the data to a number of classification models. We evaluate these methods on 10,000 biased reviews taken from the Multi-Domain Sentiment Dataset \cite{largedataset}, which comprises of product reviews collected from Amazon.com across many product types.
 
 \end{abstract}
 \section{Introduction}
@@ -44,9 +44,9 @@ In this paper, we model the reviews using a bag-of-words representation and eval
 
 \section{Dataset}
 
-We used two datasets in this experiment. The first is the Sentiment Labelled Sentences Data Set [], which consists of 3,000 labelled sentences extracted from reviews from IMDB, Amazon, and Yelp. There are 500 positive and 500 negative sentences from each of the websites and no neutral sentences. This dataset was used for evaluating a classification method that works around the lack of instance labels by exploring instance-level similarity [].
+We used two datasets in this experiment. The first is the Sentiment Labelled Sentences Data Set \cite{smalldataset}, which consists of 3,000 labelled sentences extracted from reviews from IMDB, Amazon, and Yelp. There are 500 positive and 500 negative sentences from each of the websites and no neutral sentences. This dataset was used for evaluating a classification method that works around the lack of instance labels by exploring instance-level similarity \cite{individuallabel}.
 
-The second dataset used in this experiment is the Multi-Domain Sentient Dataset [], which contains 38548 Amazon biased reviews. The reviews were left by customers across many product categories, ranging from books and dvds, which have hundreds of thousands of reviews, to musical instruments, which have only a few hundred. The subset used in this project is comprised of 10,000 reviews randomly sampled from all categories. Prior work has used this dataset for a variety of purpose, ranging from sentiment classification [] to providing bounds for minimizing empirical risk [] to weighting linear classifiers with confidence [].
+The second dataset used in this experiment is the Multi-Domain Sentient Dataset \cite{largedataset}, which contains 38548 Amazon biased reviews. The reviews were left by customers across many product categories, ranging from books and dvds, which have hundreds of thousands of reviews, to musical instruments, which have only a few hundred. The subset used in this project is comprised of 10,000 reviews randomly sampled from all categories. Prior work has used this dataset for a variety of purpose, ranging from sentiment classification \cite{domainadaptation} to providing bounds for minimizing empirical risk \cite{learningbounds} to weighting linear classifiers with confidence \cite{confidenceweight}.
 
 The reasons for using this second dataset are twofold. First, it is much larger than the first one, which leads to a more general model and thus lower generalization error. Many commonly used text analysis techniques we explored did not have a significant impact on the accuracy when training on the smaller dataset. Second, the Amazon dataset comes with ratings (out of 5 stars) in addition to just positive or negative labels. This enables us to generalize the techniques used in this project to multi-class classification.
 
@@ -76,17 +76,17 @@ We experimented with different values of $k$ depending on the dataset. For the s
 
 We trained four different models using this set of features: Bernoulli naive Bayes, multionmial naive Bayes, decision trees, and random forests. In this section, we will discuss random forests in detail.
 
-Random forest [] is an ensemble learning method used for classification and other machine learning tasks. The central idea behind random forest is bootstrap aggregating, also known as bagging, a technique that combines the results of multiple learning algorithms to reduce variance and avoid overfitting.
+Random forest \cite{randomforest} is an ensemble learning method used for classification and other machine learning tasks. The central idea behind random forest is bootstrap aggregating, also known as bagging, a technique that combines the results of multiple learning algorithms to reduce variance and avoid overfitting.
 
-The algorithm generates $B$ random subsets of the input data and trains a decision tree on each one of the subsets. Additionally, in the spirit of the random subspace method [], each decision tree chooses $d$ features sampled randomly with replacement from the original set of features. Then, to predict a data point, the algorithm traverses all $B$ decision trees and returns the mode as the predicted label.
+The algorithm generates $B$ random subsets of the input data and trains a decision tree on each one of the subsets. Additionally, in the spirit of the random subspace method \cite{randomsubspace}, each decision tree chooses $d$ features sampled randomly with replacement from the original set of features. Then, to predict a data point, the algorithm traverses all $B$ decision trees and returns the mode as the predicted label.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{dt.png}
-  \caption{A complex decision tree, borrowed from []}
+  \caption{A complex decision tree, borrowed from \cite{id3}}
 \end{figure}
 
-Each decision tree can be built as follows using the ID3 algorithm []:
+Each decision tree can be built as follows using the ID3 algorithm \cite{id3}:
 \begin{enumerate}
 \item Select the best feature that minimizes entropy (or maximizes information gain)
 \item Split input data by the values of the feature, creating a node for each value
@@ -98,7 +98,7 @@ Entropy is defined as follows:
 \mathbb{H}(\pi) = -\sum_{c=1}^{C}{\pi_c log(\pi_c)}\\
 \pi_c = \dfrac{1}{|\mathcal{D}|}\sum_{i \in \mathcal{D}}{\mathbb{I}(y_i = c)}
 \end{align*}
-where $\mathcal{D}$ is the data in the leaf node. Then information gain between the parent node $Y$ and the child node representing the test $X_j < t$ is given by []:
+where $\mathcal{D}$ is the data in the leaf node. Then information gain between the parent node $Y$ and the child node representing the test $X_j < t$ is given by \cite{textbook}:
 \begin{align*}
 IG(X_j < t, Y) &= \mathbb{H}(Y) - \mathbb{H}(Y | X_j < t)\\
 &=\left(-\sum_c{p(y=c) \log p(y=c)}\right) + \left(\sum_c{p(y=c|X_j < t)\log p(c|X_j < t)}\right)
@@ -108,7 +108,7 @@ The motivation behind combining the results of many decision trees is that singl
 
 \section{Evaluation}
 
-We used implementations in the \texttt{scikit-learn} library for each of the classification schemes described above. Additionally, as a thought experiment, we implemented our own Bernoulli naive Bayes and multinomial naive Bayes classifiers from scratch in python and compared our results against implementations in \texttt{scikit-learn}. To enhance the robustness and generality of each of our models, we used $k$-fold cross validation with $k=5$.
+We used implementations in the \texttt{scikit-learn} \cite{scikitlearn} library for each of the classification schemes described above. Additionally, as a thought experiment, we implemented our own Bernoulli naive Bayes and multinomial naive Bayes classifiers from scratch in python and compared our results against implementations in \texttt{scikit-learn}. To enhance the robustness and generality of each of our models, we used $k$-fold cross validation with $k=5$.
 
 \subsection{Metrics}
 
@@ -173,27 +173,42 @@ We evaluated four different classification methods on two datasets of different 
 
 Another future direction is to generalize this classification to multiple classes, one for each star (out of five). Preliminary work from this project demonstrated that it is much more difficult to achieve high accuracy in this task, however, since ratings are highly subjective to the user.
 
-\section{References}
+\begin{thebibliography}{}
 
-[] https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences
+\bibitem{smalldataset}
+Sentiment Lablled Sentences: https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences
 
-[] 'From Group to Individual Labels using Deep Features', Kotzias et. al,. KDD 2015
+\bibitem{largedataset}
+Multi-Domain Sentiment Dataset: http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
 
-[] http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
+\bibitem{domainadaptation}
+Blitzer, John, Mark Dredze, and Fernando Pereira. "Biographies, bollywood, boom-boxes and blenders: Domain adaptation for sentiment classification." ACL. Vol. 7. 2007.
 
-[] John Blitzer, Mark Dredze, Fernando Pereira. Biographies, Bollywood, Boom-boxes and Blenders: Domain Adaptation for Sentiment Classification. Association of Computational Linguistics (ACL), 2007
+\bibitem{learningbounds}
+Blitzer, John, et al. "Learning bounds for domain adaptation." Advances in neural information processing systems. 2008.
 
-[] John Blitzer, Koby Crammer, Alex Kulesza, Fernando Pereira, and Jenn Wortman. Learning Bounds for Domain Adaptation. Neural Information Processing Systems (NIPS), 2008.
+\bibitem{randomforest}
+Breiman, Leo. "Random forests." Machine learning 45.1 (2001): 5-32.
 
-[] Mark Dredze, Koby Crammer, and Fernando Pereira. Confidence-Weighted Linear Classification. International Conference on Machine Learning (ICML), 2008.
+\bibitem{confidenceweight}
+Dredze, Mark, Koby Crammer, and Fernando Pereira. "Confidence-weighted linear classification." Proceedings of the 25th international conference on Machine learning. ACM, 2008.
 
-[] https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf
+\bibitem{randomsubspace}
+Ho, Tin Kam. "The random subspace method for constructing decision forests." IEEE transactions on pattern analysis and machine intelligence 20.8 (1998): 832-844.
 
-[] http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=709601
+\bibitem{individuallabel}
+Kotzias, Dimitrios, et al. "From group to individual labels using deep features." Proceedings of the 21th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. ACM, 2015.
 
-[] http://hunch.net/~coms-4771/quinlan.pdf
+\bibitem{textbook}
+Murphy, Kevin P. Machine learning: a probabilistic perspective. MIT press, 2012.
 
-\bibliography{ref}
-\bibliographystyle{plos2015}
+\bibitem{scikitlearn}
+Pedregosa, Fabian, et al. "Scikit-learn: Machine learning in Python." Journal of Machine Learning Research 12.Oct (2011): 2825-2830.
+
+\bibitem{id3}
+Quinlan, J. Ross. "Induction of decision trees." Machine learning 1.1 (1986): 81-106.
+ 
+\end{thebibliography}
+
 \end{document}
 

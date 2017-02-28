@@ -8,6 +8,7 @@
 \usepackage{multirow}
 \usepackage{bm,bbm}
  \usepackage{amssymb}
+ \usepackage{float}
  \title{Classification of Review Sentiments}
 
 \author{
@@ -55,7 +56,7 @@ Raw word tokens are not suitable as features for several reasons. First, some wo
 
 \subsection{Feature extraction}
 
-We used the Python NLTK library to tokenize, lower case, lemmatize and stem each word using the Porter stemming methods. In addition to individual word tokens, we also include bigrams in our bag of "words" representation. Each entry in our feature vector then is the number of times each "word" appears in a document.
+We used the NLTK library to tokenize, lower case, lemmatize and stem each word using the Porter stemming methods. In addition to individual word tokens, we also include bigrams in our bag of "words" representation. Each entry in our feature vector then is the number of times each "word" appears in a document.
 
 \subsection{Feature selection}
 
@@ -75,19 +76,73 @@ We experimented with different values of $k$ depending on the dataset. For the s
 
 We trained four different models using this set of features: Bernoulli naive Bayes, multionmial naive Bayes, decision trees, and random forests. In this section, we will discuss random forests in detail.
 
-\subsection{Random forest}
-
 Random forest [] is an ensemble learning method used for classification and other machine learning tasks. The central idea behind random forest is bootstrap aggregating, also known as bagging, a technique that combines the results of multiple learning algorithms to reduce variance and avoid overfitting.
 
 The algorithm generates $B$ random subsets of the input data and trains a decision tree on each one of the subsets. Additionally, in the spirit of the random subspace method [], each decision tree chooses $d$ features sampled randomly with replacement from the original set of features. Then, to predict a data point, the algorithm traverses all $B$ decision trees and returns the mode as the predicted label.
 
-Each tree can be built as follows using the ID3 algorithm []:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{dt.png}
+  \caption{A complex decision tree, borrowed from []}
+\end{figure}
+
+Each decision tree can be built as follows using the ID3 algorithm []:
 \begin{enumerate}
-\item Select the best feature by information gain
-\item Split input data 
+\item Select the best feature that minimizes entropy (or maximizes information gain)
+\item Split input data by the values of the feature, creating a node for each value
+\item Recurse on each node by selecting the best remaining features
 \end{enumerate}
 
+Entropy is defined as follows:
+\begin{align*}
+\mathbb{H}(\pi) = -\sum_{c=1}^{C}{\pi_c log(\pi_c)}\\
+\pi_c = \dfrac{1}{|\mathcal{D}|}\sum_{i \in \mathcal{D}}{\mathbb{I}(y_i = c)}
+\end{align*}
+where $\mathcal{D}$ is the data in the leaf node. Then information gain between the parent node $Y$ and the child node representing the test $X_j < t$ is given by []:
+\begin{align*}
+IG(X_j < t, Y) &= \mathbb{H}(Y) - \mathbb{H}(Y | X_j < t)\\
+&=\left(-\sum_c{p(y=c) \log p(y=c)}\right) + \left(\sum_c{p(y=c|X_j < t)\log p(c|X_j < t)}\right)
+\end{align*}
+
 The motivation behind combining the results of many decision trees is that single decision trees are highly sensitive to noise in the training set and thus prone to overfitting. Combining multiple decision trees reduces the variance of the model as long as the individual trees are not correlated. This requirement is provided by building trees on different subsets of the input data and using different a subset of features on each tree.
+
+\section{Evaluation}
+
+We used implementations in the \texttt{scikit-learn} library for each of the classification schemes described above. Additionally, as a thought experiment, we implemented our own Bernoulli naive Bayes and multinomial naive Bayes classifiers from scratch in python and compared our results against implementations in \texttt{scikit-learn}. To enhance the robustness and generality of each of our models, we used $k$-fold cross validation with $k=5$.
+
+\subsection{Metrics}
+
+In addition to raw accuracy, we evaluated each of the classification methods using a number of standard classification metrics.
+\begin{align*}
+&\text{Area under ROC curve}\\
+\text{precision} &= \dfrac{TP}{TP + FP}\\
+\text{recall} &= \dfrac{TP}{TP + FN}\\
+\text{F1 score} &= 2 \cdot \dfrac{\text{precision} \cdot \text{recall}}{\text{precision} + \text{recall}}
+\end{align*}
+
+These additional metrics were chosen because the raw accuracy does not contain any information about the number of false positives and false negatives. The area under the ROC curve gives us insight into the probability that a randomly chosen positive example has higher probability in being predicted as positive than a randomly chosen negative example. However, the area under two ROC curves can still be equal even if the two models have widely different precision and recall. Since precision and recall are both desirable properties, we use the F1 score, which captures the harmonic mean of both rates, in our evaluation.
+
+\subsection{Results}
+
+\begin{table}[htbp]
+\small
+   \centering
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+   \hline
+    &  \multicolumn{5}{c|}{Sentiment labelled sentences} &
+  \multicolumn{5}{c|}{Amazon reviews}  \\
+  \cline{2-11}
+   Classifier & Acc & Prec & Recall & $F_1$ & AUC ROC & Acc & Prec & Recall & $F_1$ & AUC ROC \\ \hline \hline
+   mybnb & 0 & 0.87 & 0.79 & 0.83 & 28.5& 0.89 & 0.89 & 0.89 & 4.5 & 0 \\ \hline
+   \end{tabular}
+   \caption{{\bf Results from ten classifiers on 20 Newsgroups data.} For each classifier, we report precision, recall,  $F_1$-scores, and wall clock time in seconds for the one-versus-rest classification task with 10-fold cross validation.}
+   \label{tab:classifiers}
+\end{table}
+
+\subsection{Hyperparameter tuning}
+
+
+
 
 \section{BLARGH}
 
@@ -117,86 +172,12 @@ and $F_1$-score, which is the harmonic mean of precision and recall:
 \begin{equation*}
 F_1 = 2 \frac {precision \times recall} {precision + recall} = 2 \frac{TP}{2TP+FP+FN}.
 \end{equation*}
-\newpage
-\section{Spotlight Classifier: Perceptron Algorithm}
-
-%\subsection{Overview}
-
-The perceptron (Rosenblatt, 1958), is a linear classfication algorithm that forms the foundation of many modern discriminative models. Given a dataset $\mathcal{D} = \{(\bm{x}_1,t_1),(\bm{x}_2,t_2)...(\bm{x}_N,t_N)\}$, where  $\bm{x}\in \mathbb{R}^d$ are the $d$-dim input feature vectors and $t \in \{-1,+1\}$ are the true labels, the perceptron algorithm learns the following generalized linear model:
-
-$\quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad y(\bm{x}) = f(\bm{w}^T\bm{x})$
-
-Here, $y(\bm{x})$ are the predicted labels, the model is parameterized by the weight vector $\bm{w} \in \mathbb{R}$, and $f$ is some nonlinear activation function, such as softmax, tanh or the step function, given by:
-
-$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad f(x) = \begin{cases} +1 & x \geq 0 \\ -1 & x<0 \\ \end{cases}$
-
-The algorithm used to learn the parameters $\bm{w}$ of the perceptron can most easily be motivated by error function minimization. The simplest formulation of this would be minimixing the number of misclassified samples, but this does not yield a simple gradient based learning algorithm because the error is a piecewise constant function of $\bm{w}$, with discontinuities wherever a change in $\bm{w}$ causes the decision boundary to move across one of the data points. \cite{bishop2006pattern}
-
-$\qquad \qquad \qquad ${\includegraphics[width=0.7\textwidth]{perceptron.png}}
-
-We use instead the perceptron criterion (a modified version of hinge loss, with the `hinge' at $x=0$):
-
-{$\qquad \qquad \qquad \qquad \qquad \qquad \qquad E_P(\bm{w}) = -\sum\limits_{n=1}^N \min(0, \bm{w}^T\bm{x}_nt_n) $}
-
-If the predicted label matches the true label for sample $n$, $(\bm{w}^T\bm{x}_n)\cdot t_n > 0$. The perceptron criterion therefore
-associates zero loss for correct classification, while for a misclassified sample, it tries to minimize $\bm{w}^T\bm{x}_nt_n)$.
-
-%\subsection{Training}
-The algorithm for learning the weights of a perceptron is as follows:
-\begin{enumerate}
-
-\item[(1)] Initialize weights of the perceptron $w^{(0)}$
-
-\item[(2)] At iteration $i$, for each sample $n = 1...N$: 
-
-- Evaluate predictions $y(\bm{x}_n) = f(\bm{w}^{(i)T}\bm{x}_n)$
-
-- Update weights according to the :
-$ \bm{w}^{(i+1)} = \bm{w}^{(i)} + (t_n - y(\bm{x}_n))\bm{x}_n $
-
-\item[(3)] Repeat (2) until convergence (e.g. until iteration error is below some defined threshold)
-
-\end{enumerate}
-
-%\subsection{Evaluating classifier}
-
-The perceptron algorithm is guaranteed to converge, provided the data is linearly separable, i.e., that there exist parameters $\bm{w}$ that achieves 0 error on the training set. If the data is not linearly separable however, the algorithm will not converge, or will take a very long time. 
-
-The algorithm can easily be framed in an online setting, iteratively updating weights with each new sample. Also, unlike other logistic regression, etc, there is no need to set a learning rate (multiplying the update by a constant would simply rescale the weights, and has no effect on the predicted label).
-
-%The algorithm can be used to fit models where computing marginals $p(y|x,w)$ is more expensive than computing the MAP output, $\text{argmax}_y\, p(y|x,w)$; this arises in some structured-output classification problems.
-
-\newpage
 
 \section{Results}
 
 \subsection{Evaluation results}
 
 We found variable performance of each of the ten classifiers on the 20 Newsgroups data, particularly with respect to recall (Table~\ref{tab:classifiers}). In particular, we see that the linear classifiers (LR, P2, HL2, NB, and SVML) tend to perform worse on this task on average relative to the non-linear classifiers (AB, SVMS, DT, RF), although logistic regression has strong performance for a linear classifier. Of the non-linear classifiers, the AdaBoost, random forest, and decision tree classifiers have stronger performance than the SVMS. Overall, the decision tree shows competitive performance, despite its simplicity relative to the other nonlinear methods. This suggests that it is a non-additive combination of the word counts, rather than either a very high dimensional basis function (SVMS) or ensemble classifiers (RF, AdaBoost), that creates the biggest gains in performance over linear classifiers.
-
-\begin{table}[htbp]
-\small
-   \centering
-   \begin{tabular}{@{}|c|c|c|c|c|c|c|c|c|@{}} % Column formatting, @{} suppresses leading/trailing space 
-   \hline
-    &  \multicolumn{4}{c}{No feature selection} &
-  \multicolumn{4}{c|}{Feature selection}  \\
-  \cline{2-9}
-   Classifier & Prec & Recall & $F_1$ & Time (s)& Prec & Recall & $F_1$ & Time (s) \\ \hline \hline
-      KNN   &  0.77 & 0.34 & 0.45 & 1480.4 & 0.74 & 0.40 & 0.54 & 272.1\\
-        LR   &  0.81 & 0.89 & 0.85 & 23.7& 0.76 & 0.91 & 0.82 & 14.8 \\
-      P2      &  0.68 & 0.22 & 0.25 & 5.99& 0.66 & 0.20 & 0.21 & 0.98\\
-      HL2    &  0.70 & 0.22 & 0.24 & 6.04& 0.66 & 0.19 & 0.19 & 0.97 \\
-      NB &  0.39 & 0.94 & 0.53 & 4.34& 0.36 & 0.95 & 0.50 & 0.69  \\
-      SVML &  0.78 & 0.90 & 0.83 & 11.1 & 0.65 & 0.90 & 0.75 & 4.1 \\
-      SVMS &  0.83 & 0.68 & 0.74 & 929.9& 0.84 & 0.89 & 0.86 & 150.6 \\
-      AB & 0.88 & 0.94 & 0.91 & 1424.2& 0.89 & 0.94 & 0.91 & 178.4 \\
-      DT & 0.89 & 0.93 & 0.91 & 24.2& 0.89 & 0.93 & 0.90 & 3.0 \\
-      RF &  0.87 & 0.79 & 0.83 & 28.5& 0.89 & 0.89 & 0.89 & 4.5 \\ \hline
-   \end{tabular}
-   \caption{{\bf Results from ten classifiers on 20 Newsgroups data.} For each classifier, we report precision, recall,  $F_1$-scores, and wall clock time in seconds for the one-versus-rest classification task with 10-fold cross validation.}
-   \label{tab:classifiers}
-\end{table}
 
 For each of the one-versus-rest classification problems, we extracted the \emph{Gini} impurity scores from a trained random forest classifier. Gini impurity for a particular feature represents the information gain, or the average reduction in entropy of the classifier before and after a that feature is used across all of the trees in the random forest; a larger value indicates greater predictive power. We found that the top ten words, with respect to Gini impurity, for each class (Table~\ref{tab:words}) were representative of the topics discussed in that newsgroup (e.g., {\tt talk.religion.misc} includes \emph{moral} and \emph{religion}); there were also a number of words that were in the top ten word lists for a number of newsgroup classes, suggesting that they were important in discriminating one of the newsgroups with a $0$ label from the newsgroup with the $1$ label (e.g., \emph{mideast} is a strong indicator of {\tt talk.politics.mideast}).
 

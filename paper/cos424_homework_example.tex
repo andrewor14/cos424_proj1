@@ -40,15 +40,17 @@ Sentiment analysis is a common technique used by many companies to gain insight 
 
 The problem with analyzing ratings alone is that ratings are highly subjective. A product with mediocre ratings may still be desirable if, for example, the product has different sizes and many of the low ratings were given because the product did not fit the buyer. By contrast, the text associated with each review contains much more information than just a number. Certain words, such as 'amazing' and 'brilliant', are often strongly correlated with positive feedback. In addition to tokenized words, n-grams are often also of interest because the sentiments associated with certain phrases, such as 'not impressed', are different from those associated with each individual word in the phrase.
 
-In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods: Bernoulli naive Bayes, multinomial naive Bayes, decision trees, and random forest. We extracted bigrams in addition to individual word tokens as our features and selected features with low Chi-squared score. To account for potential skew in the input data, we used $k$-fold cross validation to split the data into different permutations of train and test sets. The metrics we used for evaluation include percentage of correctly classified test labels, area under the ROC curve, and the F1 score.
+In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods: Bernoulli naive Bayes, multinomial naive Bayes, decision trees, and random forest. We extracted bigrams in addition to individual word tokens as our features and selected features with low Chi-squared score. To account for potential skew in the input data, we used $k$-fold cross validation to split the data into different permutations of train and test sets. The metrics we used for evaluation include accuracy, precision, recall, the F1 score, and the area under the ROC curve.
+
+Additionally, we implemented our own custom Bernoulli naive Bayes and multinomial naive Bayes from scratch in python and compared their performance against existing implementations. All source code can be found at \cite{myrepo}.
 
 \section{Dataset}
 
 We used two datasets in this experiment. The first is the Sentiment Labelled Sentences Data Set \cite{smalldataset}, which consists of 3,000 labelled sentences extracted from reviews from IMDB, Amazon, and Yelp. There are 500 positive and 500 negative sentences from each of the websites and no neutral sentences. This dataset was used for evaluating a classification method that works around the lack of instance labels by exploring instance-level similarity \cite{individuallabel}.
 
-The second dataset used in this experiment is the Multi-Domain Sentient Dataset \cite{largedataset}, which contains 38548 Amazon biased reviews. The reviews were left by customers across many product categories, ranging from books and dvds, which have hundreds of thousands of reviews, to musical instruments, which have only a few hundred. The subset used in this project is comprised of 10,000 reviews randomly sampled from all categories. Prior work has used this dataset for a variety of purpose, ranging from sentiment classification \cite{domainadaptation} to providing bounds for minimizing empirical risk \cite{learningbounds} to weighting linear classifiers with confidence \cite{confidenceweight}.
+The second dataset used in this experiment is the Multi-Domain Sentient Dataset \cite{largedataset}, which contains 38548 Amazon biased reviews. The subset used in this project is comprised of 10,000 reviews randomly sampled from all product categories. Prior work has used this dataset for a variety of purpose, ranging from sentiment classification \cite{domainadaptation} to providing bounds for minimizing empirical risk \cite{learningbounds} to weighting linear classifiers with confidence \cite{confidenceweight}.
 
-The reasons for using this second dataset are twofold. First, it is much larger than the first one, which leads to a more general model and thus lower generalization error. Many commonly used text analysis techniques we explored did not have a significant impact on the accuracy when training on the smaller dataset. Second, the Amazon dataset comes with ratings (out of 5 stars) in addition to just positive or negative labels. This enables us to generalize the techniques used in this project to multi-class classification.
+The reasons for using this second dataset are twofold. First, it is much larger than the first one, which is conducive to more general models and thus lower generalization error. Many commonly used text analysis techniques we explored did not have a significant impact on the accuracy when training on the smaller dataset. Second, the Amazon dataset comes with ratings (out of 5 stars) in addition to just positive or negative labels. This enables us to generalize the techniques used in this project to multi-class classification in the future.
 
 \section{Data processing}
 
@@ -124,7 +126,7 @@ These additional metrics were chosen because the raw accuracy does not contain a
 
 \subsection{Hyperparameter tuning}
 
-The default parameters of the decision tree and random forest classifiers in \texttt{scikit-learn} did not yield good accuracy. Thus, for these models, we experimented with different sets of hyperparameters by trial and error. More specifically, the parameter grids we explored were:
+The default parameters of the decision tree and random forest classifiers in \texttt{scikit-learn} did not yield good accuracy. Thus, for these models, we experimented with different sets of hyperparameters by trial and error. More specifically, the parameter grid we explored was:
 \begin{align*}
 &\texttt{min\textunderscore leaf\textunderscore samples}: 1, 10, 100\\
 &\texttt{max\textunderscore features}: 0.5, 0.75, 0.9\\
@@ -132,7 +134,6 @@ The default parameters of the decision tree and random forest classifiers in \te
 \end{align*}
 where last parameter is for random forest only. We chose to tune \texttt{min\textunderscore leaf\textunderscore samples} because the default was 1, which led to many splits that were overly specific to the training set. Similarly, tuning \texttt{max\textunderscore features} reduces the chance of overfitting. Using more trees by increasing \texttt{n\textunderscore estimators} further randomizes the training, which should lead to lower generalization errors. In our experiments, we found that the best hyperparameters to use are $\texttt{min\textunderscore leaf\textunderscore samples} = 1, \texttt{max\textunderscore features} = 0.9, \texttt{n\textunderscore estimators} = 100$ for the smaller dataset and $\texttt{min\textunderscore leaf\textunderscore samples} = 10, \texttt{max\textunderscore features} = 0.9, \texttt{n\textunderscore estimators} = 100$ for the larger dataset.
 
-\newpage
 \subsection{Results}
 
 \begin{table}[htbp]
@@ -174,6 +175,9 @@ We evaluated four different classification methods on two datasets of different 
 Another future direction is to generalize this classification to multiple classes, one for each star (out of five). Preliminary work from this project demonstrated that it is much more difficult to achieve high accuracy in this task, however, since ratings are highly subjective to the user.
 
 \begin{thebibliography}{}
+
+\bibitem{myrepo}
+https://github.com/andrewor14/sentimentanalysis
 
 \bibitem{smalldataset}
 Sentiment Lablled Sentences: https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences

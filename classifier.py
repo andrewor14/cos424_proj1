@@ -5,7 +5,7 @@ from preprocessSentences import add_bigrams, clean_word, clean_words, parse_exam
 import argparse
 import numpy as np
 from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve, auc, f1_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.svm import LinearSVC
@@ -202,18 +202,21 @@ def print_classify_example(line, words, predicted_label, expected_label, extra="
 def print_result(predicted_labels, expected_labels):
   assert len(predicted_labels) == len(expected_labels)
   num_correct = 0
+  rounded_predicted_labels = [round(l) for l in predicted_labels]
   for i in range(len(predicted_labels)):
-    if round(predicted_labels[i]) == expected_labels[i]:
+    if rounded_predicted_labels[i] == expected_labels[i]:
       num_correct += 1
   percent_correct = float(num_correct) * 100 / len(expected_labels)
   false_positive_rate, true_positive_rate, thresholds = roc_curve(expected_labels, predicted_labels)
   roc_auc = auc(false_positive_rate, true_positive_rate)
+  f1 = f1_score(expected_labels, rounded_predicted_labels)
   print "\n================================"
   print "You guessed %s/%s = %s%% correct." % (num_correct, len(expected_labels), percent_correct)
   print "  - False positive rate: %s" % false_positive_rate.tolist()
   print "  - True positive rate: %s" % true_positive_rate.tolist()
   print "  - Thresholds: %s" % thresholds.tolist()
   print "  - AUC: %s" % roc_auc
+  print "  - F1: %s" % f1
   print "================================\n"
 
 if __name__ == "__main__":

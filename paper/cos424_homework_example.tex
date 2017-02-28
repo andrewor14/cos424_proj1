@@ -30,15 +30,18 @@ Princeton University\\
 
 \begin{abstract}
 
+Customer sentiment is a good prediction of business value. Amazon and many other e-commerce websites rely on reviews to organically filter out unwanted or defective products. While the rating associated with each review is important, the content of the review is also a significant indication of customer interest or lack thereof. In this paper, we analyze sentiments expressed in the text of each review and explore the relationship between these sentiments and the associated rating. We use techniques in text analysis to extract and select features from the dataset and fit the data to a number of classification models. We evaluate these methods on 10,000 biased reviews taken from the Multi-Domain Sentiment Dataset [], which comprises of product reviews collected from Amazon.com across many product types.
 
-
-
-
-Streaming text data is ubiquitous: Google News, Twitter, Facebook, and many other websites have large numbers of posts from users every second. Often, we would like to classify these posts into specific categories as they arrive in order to organize the many new posts for other users to filter efficiently. In this assignment, we address the problem of classifying newsgroup posts using a number of different feature sets and methods for classification. We evaluate these methods on the 20 Newgroups data set, which contains 20,000 posts to twenty different newsgroups, where the newsgroup labels each post into each of twenty distinct classes. We train the classifiers on bag-of-words representations of each post, with and without feature selection. We find that decision trees and random forest classifiers uniformly have the highest precision and recall, whereas the perceptron and hinge loss perform poorly with respect to the other classifiers.
 \end{abstract}
 \section{Introduction}
 
-The need for classifying streaming text is everywhere. The Associated Press releases articles that need to be filed under specific headings in Google News. Twitter and Facebook analyze each post in real time. Emails arrive in our inbox and must be filtered into \emph{Spam} or \emph{Inbox}. We are interested in understanding which classification methods perform well on this task. Furthermore, we would like to understand the properties of a classifier that are useful in performing this task in order to consider developing new classifiers for this purpose.
+Sentiment analysis is a common technique used by many companies to gain insight into their users. In the context of e-commerce, sentiments are usually hidden in the product reviews. In Amazon's case, for instance, each review is associated with a five-star rating and a text blob justifying the user's decision on the rating. Other customers then use average ratings to judge whether their purchases will be fruitful.
+
+The problem with analyzing ratings alone is that ratings are highly subjective. A product with mediocre ratings may still be desirable if, for example, the product has different sizes and many of the low ratings were given because the product did not fit the buyer. By contrast, the text associated with each review contains much more information than just a number. Certain words, such as 'amazing' and 'brilliant', are often strongly correlated with positive feedback. In addition to tokenized words, n-grams are often also of interest because the sentiments associated with certain phrases, such as 'not impressed', are different from those associated with each individual word in the phrase.
+
+In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods.
+
+[] http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
 
 In this work, we evaluate ten separate classification methods in the task of classifying newsgroup categories from posts. For this task, we have modeled the posts using a bag-of-words representation. We evaluated the performance of each of the classification methods with and without feature selection to quantify the benefits of feature selection on classifier performance and also on the computational speed of each of the classifiers.
 

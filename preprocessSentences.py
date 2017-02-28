@@ -204,7 +204,7 @@ def main(argv):
       index = vocab_index.get(token)
       if index > 0:
         bow_data[i, index] = bow_data[i, index] + 1
-  k = min(int(len(vocabs) * 0.9), 5000)
+  k = min(int(len(vocabs) * 0.9), 4000)
   select = SelectKBest(chi2, k)
   bow_data = select.fit_transform(bow_data, np.array(train_labels))
   new_vocabs = []

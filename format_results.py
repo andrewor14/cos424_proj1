@@ -16,14 +16,15 @@ model_to_auc = {}
 
 for f in files:
   with open(f, "r") as reader:
-    interesting_lines = [line for line in reader.readlines() if\
-      line.startswith("Running model") or line.startswith("You guessed") or "AUC" in line]
-    for i in range(len(interesting_lines)):
-      if interesting_lines[i].startswith("Running model"):
-        model = interesting_lines[i].split()[2].replace("'", "")
-        accuracy = float(interesting_lines[i+1].split()[4].replace("%", ""))
-        auc = float(interesting_lines[i+2].strip().split()[2])
+    model = None
+    for line in reader.readlines():
+      if line.startswith("Running model"):
+        model = line.split()[2].replace("'", "")
+      elif line.startswith("You guessed"):
+        accuracy = float(line.split()[4].replace("%", ""))
         model_to_accuracy[model] = (model_to_accuracy.get(model) or []) + [accuracy]
+      elif "AUC" in line:
+        auc = float(line.strip().split()[2])
         model_to_auc[model] = (model_to_auc.get(model) or []) + [auc]
 
 #print model_to_accuracy

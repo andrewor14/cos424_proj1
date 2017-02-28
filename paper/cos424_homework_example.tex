@@ -39,7 +39,7 @@ Sentiment analysis is a common technique used by many companies to gain insight 
 
 The problem with analyzing ratings alone is that ratings are highly subjective. A product with mediocre ratings may still be desirable if, for example, the product has different sizes and many of the low ratings were given because the product did not fit the buyer. By contrast, the text associated with each review contains much more information than just a number. Certain words, such as 'amazing' and 'brilliant', are often strongly correlated with positive feedback. In addition to tokenized words, n-grams are often also of interest because the sentiments associated with certain phrases, such as 'not impressed', are different from those associated with each individual word in the phrase.
 
-In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods: Bernoulli naive Bayes, multinomial naive Bayes, decision trees, and random forest. We extracted bigrams in addition to individual word tokens as our features and filtered out features with low Chi Squared score. To account for potential skew in the input data, we used $k$-fold cross validation to split the data into different permutations of train and test sets. The metrics we used for evaluation include percentage of correctly classified test labels, area under the ROC curve, and the F1 score.
+In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods: Bernoulli naive Bayes, multinomial naive Bayes, decision trees, and random forest. We extracted bigrams in addition to individual word tokens as our features and selected features with low Chi-squared score. To account for potential skew in the input data, we used $k$-fold cross validation to split the data into different permutations of train and test sets. The metrics we used for evaluation include percentage of correctly classified test labels, area under the ROC curve, and the F1 score.
 
 \section{Dataset}
 
@@ -71,7 +71,23 @@ where $O_{ij}$ is the observed count and $E_{ij}$ is the expected count. This qu
 
 We experimented with different values of $k$ depending on the dataset. For the smaller dataset, we used $k = 463$, which throws approximately 10\% of the remaining features after removing rare words and stop words. For the larger dataset, we used $k = 4000$, which throws about around 40\% of the remaining features.
 
-\section{BLEEH}
+\section{Classification}
+
+We trained four different models using this set of features: Bernoulli naive Bayes, multionmial naive Bayes, decision trees, and random forests. In this section, we will discuss random forests in detail.
+
+\subsection{Random forest}
+
+Random forest [] is an ensemble learning method used for classification and other machine learning tasks. The central idea behind random forest is bootstrap aggregating, also known as bagging, a technique that combines the results of multiple learning algorithms to reduce variance and avoid overfitting.
+
+The algorithm generates $B$ random subsets of the input data and trains a decision tree on each one of the subsets. Additionally, in the spirit of the random subspace method [], each decision tree chooses $d$ features sampled randomly with replacement from the original set of features. Then, to predict a data point, the algorithm traverses all $B$ decision trees and returns the mode as the predicted label.
+
+Each tree can be built as follows using the ID3 algorithm []:
+\begin{enumerate}
+\item Select the best feature by information gain
+\item Split input data 
+\end{enumerate}
+
+The motivation behind combining the results of many decision trees is that single decision trees are highly sensitive to noise in the training set and thus prone to overfitting. Combining multiple decision trees reduces the variance of the model as long as the individual trees are not correlated. This requirement is provided by building trees on different subsets of the input data and using different a subset of features on each tree.
 
 \section{BLARGH}
 
@@ -256,6 +272,11 @@ There are a number of directions to go that would improve these results. First, 
 
 [] Mark Dredze, Koby Crammer, and Fernando Pereira. Confidence-Weighted Linear Classification. International Conference on Machine Learning (ICML), 2008.
 
+[] https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf
+
+[] http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=709601
+
+[] http://hunch.net/~coms-4771/quinlan.pdf
 
 \bibliography{ref}
 \bibliographystyle{plos2015}

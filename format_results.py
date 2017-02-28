@@ -22,7 +22,7 @@ for f in files:
         if model not in model_to_scores:
           model_to_scores[model] = []
       elif line.startswith("You guessed"):
-        accuracy = float(line.split()[4].replace("%", ""))
+        accuracy = float(line.split()[4].replace("%", "")) / 100
         model_to_scores[model] += [('accuracy', accuracy)]
       elif "Precision" in line:
         precision = float(line.strip().split()[2])
@@ -43,5 +43,7 @@ for model, scores in model_to_scores.items():
     new_scores[s] = (new_scores.get(s) or []) + [v]
   for s in new_scores.keys():
     new_scores[s] = float(sum(new_scores[s])) / len(new_scores[s])
-  print "%s: %s" % (model, new_scores)
+  #print "%s: %s" % (model, new_scores)
+  print "%s: %.2f & %.2f & %.2f & %.2f & %.2f" %\
+    (model, new_scores['accuracy'], new_scores['precision'], new_scores['recall'], new_scores['f1'], new_scores['auc'])
 

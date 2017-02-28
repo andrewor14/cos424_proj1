@@ -122,6 +122,16 @@ In addition to raw accuracy, we evaluated each of the classification methods usi
 
 These additional metrics were chosen because the raw accuracy does not contain any information about the number of false positives and false negatives. The area under the ROC curve gives us insight into the probability that a randomly chosen positive example has higher probability in being predicted as positive than a randomly chosen negative example. However, the area under two ROC curves can still be equal even if the two models have widely different precision and recall. Since precision and recall are both desirable properties, we use the F1 score, which captures the harmonic mean of both rates, in our evaluation.
 
+\subsection{Hyperparameter tuning}
+
+The default parameters of the decision tree and random forest classifiers in \texttt{scikit-learn} did not yield good accuracy. Thus, for these models, we experimented with different sets of hyperparameters by trial and error. More specifically, the parameter grids we explored were:
+\begin{align*}
+&\texttt{min\textunderscore leaf\textunderscore samples}: 1, 10, 100\\
+&\texttt{max\textunderscore features}: 0.5, 0.75, 0.9\\
+&\texttt{n\textunderscore estimators}: 10, 30, 100
+\end{align*}
+where last parameter is for random forest only. We chose to tune \texttt{min\textunderscore leaf\textunderscore samples} because the default was 1, which led to many splits that were overly specific to the training set. Similarly, tuning \texttt{max\textunderscore features} reduces the chance of overfitting. Using more trees by increasing \texttt{n\textunderscore estimators} further randomizes the training, which should lead to lower generalization errors. In our experiments, we found that the best hyperparameters to use are $\texttt{min\textunderscore leaf\textunderscore samples} = 1, \texttt{max\textunderscore features} = 0.9, \texttt{n\textunderscore estimators} = 100$ for the smaller dataset and $\texttt{min\textunderscore leaf\textunderscore samples} = 10, \texttt{max\textunderscore features} = 0.9, \texttt{n\textunderscore estimators} = 100$ for the larger dataset.
+
 \subsection{Results}
 
 \begin{table}[htbp]
@@ -129,18 +139,20 @@ These additional metrics were chosen because the raw accuracy does not contain a
    \centering
    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
    \hline
-    &  \multicolumn{5}{c|}{Sentiment labelled sentences} &
-  \multicolumn{5}{c|}{Amazon reviews}  \\
+    &  \multicolumn{5}{c|}{2,400 sentiment labelled sentences} &
+  \multicolumn{5}{c|}{10,000 Amazon reviews}  \\
   \cline{2-11}
    Classifier & Acc & Prec & Recall & $F_1$ & AUC ROC & Acc & Prec & Recall & $F_1$ & AUC ROC \\ \hline \hline
-   mybnb & 0 & 0.87 & 0.79 & 0.83 & 28.5& 0.89 & 0.89 & 0.89 & 4.5 & 0 \\ \hline
+   mybnb & 0.71 & 0.67 & 0.76 & 0.71 & 0.69 & 0.51 & 0.68 & 0.27 & 0.38 & 0.55 \\\hline
+   mymnb & 0.69 & 0.66 & 0.75 & 0.69 & 0.68 & 0.66 & 0.75 & 0.61 & 0.67 & 0.67 \\\hline
+   bnb & 0.62 & 0.66 & 0.68 & 0.62 & 0.75 & 0.78 & 0.78 & 0.85 & 0.81 & 0.86 \\\hline
+   mnb & 0.62 & 0.65 & 0.69 & 0.63 & 0.75 & 0.79 & 0.81 & 0.83 & 0.82 & 0.86 \\\hline
+   dt & 0.62 & 0.62 & 0.70 & 0.63 & 0.65 & 0.70 & 0.72 & 0.78 & 0.75 & 0.75 \\\hline
+   rf & 0.60 & 0.65 & 0.56 & 0.57 & 0.69 & 0.73 & 0.74 & 0.82 & 0.78 & 0.81 \\\hline
    \end{tabular}
-   \caption{{\bf Results from ten classifiers on 20 Newsgroups data.} For each classifier, we report precision, recall,  $F_1$-scores, and wall clock time in seconds for the one-versus-rest classification task with 10-fold cross validation.}
+   \caption{Accuracy, precision, recall, F1 score, and area under ROC curve for all models evaluated under two datasets of different sizes using 5-fold cross validation. \texttt{mybnb} and \texttt{mymnb} refer to the custom implementation of Bernoulli naive Bayes and multinomial naive Bayes respectively. The rest of the classifiers use implementations provided by \texttt{scikit-learn}.}
    \label{tab:classifiers}
 \end{table}
-
-\subsection{Hyperparameter tuning}
-
 
 
 

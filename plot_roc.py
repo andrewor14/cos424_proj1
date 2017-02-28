@@ -30,8 +30,6 @@ with open(log_file, "r") as f:
       auc = float(line.strip().split()[2])
   roc_data += [(model, fpr, tpr, auc)]
 
-print roc_data[3]
-
 # Data is a list of (name, fpr, tpr, auc) tuples
 plt.title('Receiver operating characteristic')
 colors = ['g', 'k', 'r', 'm']

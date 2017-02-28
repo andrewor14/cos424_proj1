@@ -5,7 +5,7 @@ from preprocessSentences import add_bigrams, clean_word, clean_words, parse_exam
 import argparse
 import numpy as np
 from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
-from sklearn.metrics import roc_curve, auc, f1_score
+from sklearn.metrics import roc_curve, auc, f1_score, precision_score, recall_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.svm import LinearSVC
@@ -55,12 +55,11 @@ def main():
     raise Exception("Unknown model '%s' % args.model")
 
 def make_dt_model():
-  param_grid = [{'min_samples_leaf':[1, 10], 'max_features':[0.5, 0.75, 'auto']}]
+  param_grid = [{'min_samples_leaf':[1, 10, 50], 'max_features':[0.5, 0.75, 0.9]}]
   return GridSearchCV(DecisionTreeClassifier(), param_grid)
 
 def make_rf_model():
-  param_grid = [{'n_estimators':[10, 30]}]
-  return GridSearchCV(RandomForestClassifier(min_samples_leaf=10, max_features=0.75), param_grid)
+  return RandomForestClassifier(n_estimators=100, min_samples_leaf=10, max_features=0.75)
 
 def make_svm_model():
   #param_grid = [\
@@ -210,12 +209,16 @@ def print_result(predicted_labels, expected_labels):
   false_positive_rate, true_positive_rate, thresholds = roc_curve(expected_labels, predicted_labels)
   roc_auc = auc(false_positive_rate, true_positive_rate)
   f1 = f1_score(expected_labels, rounded_predicted_labels)
+  precision = precision_score(expected_labels, rounded_predicted_labels)
+  recall = recall_score(expected_labels, rounded_predicted_labels)
   print "\n================================"
   print "You guessed %s/%s = %s%% correct." % (num_correct, len(expected_labels), percent_correct)
   print "  - False positive rate: %s" % false_positive_rate.tolist()
   print "  - True positive rate: %s" % true_positive_rate.tolist()
   print "  - Thresholds: %s" % thresholds.tolist()
   print "  - AUC: %s" % roc_auc
+  print "  - Precision: %s" % precision
+  print "  - Recall: %s" % recall
   print "  - F1: %s" % f1
   print "================================\n"
 

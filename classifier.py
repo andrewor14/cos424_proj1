@@ -55,7 +55,7 @@ def main():
     raise Exception("Unknown model '%s' % args.model")
 
 def make_dt_model():
-  param_grid = [{'min_samples_leaf':[1, 10, 50], 'max_features':[0.5, 0.75, 0.9]}]
+  param_grid = [{'min_samples_leaf':[1, 10, 100], 'max_features':[0.5, 0.75, 0.9]}]
   return GridSearchCV(DecisionTreeClassifier(), param_grid)
 
 def make_rf_model():

@@ -92,7 +92,7 @@ def sk_model(train_labels, bow_file, vocabs, test_file, model):
           word_vector[index] += 1
       word_vector = np.array(word_vector)
       # Do the prediction
-      predicted_labels += [model.predict([word_vector])[0]]
+      predicted_labels += [float(model.predict_proba([word_vector])[0][1])]
       expected_labels += [int(line.split()[-1])]
       if i < log_threshold:
         print_classify_example(line, words, predicted_labels[i], expected_labels[i])
@@ -195,7 +195,7 @@ def print_result(predicted_labels, expected_labels):
   assert len(predicted_labels) == len(expected_labels)
   num_correct = 0
   for i in range(len(predicted_labels)):
-    if predicted_labels[i] == expected_labels[i]:
+    if round(predicted_labels[i]) == expected_labels[i]:
       num_correct += 1
   percent_correct = float(num_correct) * 100 / len(expected_labels)
   false_positive_rate, true_positive_rate, thresholds = roc_curve(expected_labels, predicted_labels)

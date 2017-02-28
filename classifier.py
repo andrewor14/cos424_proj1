@@ -59,7 +59,7 @@ def make_dt_model():
   return GridSearchCV(DecisionTreeClassifier(), param_grid)
 
 def make_rf_model():
-  param_grid = [{'n_estimators':[10, 100]}]
+  param_grid = [{'n_estimators':[10, 30]}]
   return GridSearchCV(RandomForestClassifier(min_samples_leaf=10, max_features=0.75), param_grid)
 
 def make_svm_model():

@@ -1,11 +1,15 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Dataset}{}% 2
 \BOOKMARK [1][-]{section.3}{Data processing}{}% 3
-\BOOKMARK [2][-]{subsection.3.1}{Classification methods}{section.3}% 4
-\BOOKMARK [2][-]{subsection.3.2}{Evaluation}{section.3}% 5
-\BOOKMARK [1][-]{section.4}{Spotlight Classifier: Perceptron Algorithm}{}% 6
-\BOOKMARK [1][-]{section.5}{Results}{}% 7
-\BOOKMARK [2][-]{subsection.5.1}{Evaluation results}{section.5}% 8
-\BOOKMARK [2][-]{subsection.5.2}{Computational speed}{section.5}% 9
-\BOOKMARK [2][-]{subsection.5.3}{Feature selection}{section.5}% 10
-\BOOKMARK [1][-]{section.6}{Discussion and Conclusion}{}% 11
+\BOOKMARK [2][-]{subsection.3.1}{Feature extraction}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Feature selection}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{BLEEH}{}% 6
+\BOOKMARK [1][-]{section.5}{BLARGH}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{Evaluation}{section.5}% 8
+\BOOKMARK [1][-]{section.6}{Spotlight Classifier: Perceptron Algorithm}{}% 9
+\BOOKMARK [1][-]{section.7}{Results}{}% 10
+\BOOKMARK [2][-]{subsection.7.1}{Evaluation results}{section.7}% 11
+\BOOKMARK [2][-]{subsection.7.2}{Computational speed}{section.7}% 12
+\BOOKMARK [2][-]{subsection.7.3}{Feature selection}{section.7}% 13
+\BOOKMARK [1][-]{section.8}{Discussion and Conclusion}{}% 14
+\BOOKMARK [1][-]{section.9}{References?}{}% 15

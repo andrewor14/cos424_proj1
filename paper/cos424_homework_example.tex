@@ -49,29 +49,31 @@ The second dataset used in this experiment is the Multi-Domain Sentient Dataset 
 
 The reasons for using this second dataset are twofold. First, it is much larger than the first one, which leads to a more general model and thus lower generalization error. Many commonly used text analysis techniques we explored did not have a significant impact on the accuracy when training on the smaller dataset. Second, the Amazon dataset comes with ratings (out of 5 stars) in addition to just positive or negative labels. This enables us to generalize the techniques used in this project to multi-class classification.
 
-[] https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences
-
-[] 'From Group to Individual Labels using Deep Features', Kotzias et. al,. KDD 2015
-
-[] http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
-
-[] John Blitzer, Mark Dredze, Fernando Pereira. Biographies, Bollywood, Boom-boxes and Blenders: Domain Adaptation for Sentiment Classification. Association of Computational Linguistics (ACL), 2007
-
-[] John Blitzer, Koby Crammer, Alex Kulesza, Fernando Pereira, and Jenn Wortman. Learning Bounds for Domain Adaptation. Neural Information Processing Systems (NIPS), 2008.
-
-[] Mark Dredze, Koby Crammer, and Fernando Pereira. Confidence-Weighted Linear Classification. International Conference on Machine Learning (ICML), 2008.
-
 \section{Data processing}
 
-Raw word tokens are not suitable as features for several reasons. First, typos are common in user reviews. 
+Raw word tokens are not suitable as features for several reasons. First, some words are used only very rarely and do not actually convey any sentiment. These could be words that are highly specific to the user or simply typos. Second, many words have multiple forms that are semantically equivalent. Third, analyzing individual word tokens misses semantics expressed through phrases or negation. Thus, feature extraction and selection are both conducive to a feature set more representative of the underlying sentiments expressed by the users.
 
+\subsection{Feature extraction}
 
-We used the Python NLTK library to tokenize, lower case, remove stop words, lemmatize and stem each word using the Porter stemming methods. Further, we filtered words that occurred fewer than 5 times in the corpus.
+We used the Python NLTK library to tokenize, lower case, lemmatize and stem each word using the Porter stemming methods. In addition to individual word tokens, we also include bigrams in our bag of "words" representation. Each entry in our feature vector then is the number of times each "word" appears in a document.
 
+\subsection{Feature selection}
 
-We downloaded the 20 Newsgroups data set on January 5th, 2015 from the UCI Machine Learning Archive~\footnote{{\tt http://kdd.ics.uci.edu/}}. We used the Python NLTK library to tokenize, convert to lower case, remove stop words, lemmatize, stem each word using the Porter stemming method, and filtering words that occurred fewer than $200$ times in the corpus~\cite{bird2009}. The resulting vocabulary contained $3,256$ words. We converted these words to the bag-of-words format as features of the posts; we used the newsgroup name that each document was posted to as its label. We considered the effect of feature selection on the classifiers, where feature selection is performed using a support vector machine with a linear kernel and $\ell_1$ penalty. After feature selection, we were left with $488$ dictionary words in the bag-of-words representation, which is $15\%$ of the original feature set size.
+Without any feature selection, the number of features extracted this way is 11252 for the smaller dataset and 166566 for the larger dataset. Especially in the latter case, classifying on this many features is prohibitively expensive and prone to noise.
 
-\subsection{Classification methods}
+Thus, we filtered the number of features as follows. First, we removed stop words, as specified by the NLTK library, and any words that occurred fewer than 5 times in the corpus. This step alone reduced the number of features to 515 in the smaller dataset and 6666 in the larger dataset. Then, we ranked the remaining features by Chi-squared score, which is given by:
+
+\begin{align*}
+\chi^2 = \sum_{ij}{\dfrac{(O_{ij} - E_{ij})^2}{E_{ij}}}
+\end{align*}
+
+where $O_{ij}$ is the observed count and $E_{ij}$ is the expected count. This quantity measures how much observed counts deviate from expected counts and tests the independence between two variables: the feature variable and the class variable in our case. We then select the best $k$ (lowest $\chi^2$) features and use them for classification.
+
+We experimented with different values of $k$ depending on the dataset. For the smaller dataset, we used $k = 463$, which throws approximately 10\% of the remaining features after removing rare words and stop words. For the larger dataset, we used $k = 4000$, which throws about around 40\% of the remaining features.
+
+\section{BLEEH}
+
+\section{BLARGH}
 
 We use ten different classification methods from the SciKitLearn Python libraries~\cite{scikit-learn}. All parameterizations are the default unless specified.
 \begin{enumerate}
@@ -240,7 +242,19 @@ In this work, we compared ten different classifiers to predict the newsgroup for
 
 There are a number of directions to go that would improve these results. First, we could expand our data set using available data from these and other related newsgroups. Second, we could consider more sophisticated features for the newsgroup posts than dictionary word counts; bi-grams, post length, or punctuation may be useful in this classification task. Third, we could use the most promising models in a more problem-tailored way. In particular, because the random forest classifier showed such promise in this task, we could consider applying it to this problem using multi class class labels instead of one-versus-rest class labels, and reducing the dimension of the feature space using supervised latent Dirichlet allocation based methods \cite{zhu2009,lacoste2009}. 
 
-%\subsubsection*{Acknowledgments}
+\section{References?}
+
+[] https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences
+
+[] 'From Group to Individual Labels using Deep Features', Kotzias et. al,. KDD 2015
+
+[] http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
+
+[] John Blitzer, Mark Dredze, Fernando Pereira. Biographies, Bollywood, Boom-boxes and Blenders: Domain Adaptation for Sentiment Classification. Association of Computational Linguistics (ACL), 2007
+
+[] John Blitzer, Koby Crammer, Alex Kulesza, Fernando Pereira, and Jenn Wortman. Learning Bounds for Domain Adaptation. Neural Information Processing Systems (NIPS), 2008.
+
+[] Mark Dredze, Koby Crammer, and Fernando Pereira. Confidence-Weighted Linear Classification. International Conference on Machine Learning (ICML), 2008.
 
 
 \bibliography{ref}

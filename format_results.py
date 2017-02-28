@@ -11,8 +11,7 @@ if len(sys.argv) != 2:
 path = sys.argv[1]
 files = [join(path, f) for f in os.listdir(path) if isfile(join(path, f)) and f.endswith(".log")]
 
-model_to_accuracy = {}
-model_to_auc = {}
+model_to_scores = {}
 
 for f in files:
   with open(f, "r") as reader:
@@ -20,21 +19,29 @@ for f in files:
     for line in reader.readlines():
       if line.startswith("Running model"):
         model = line.split()[2].replace("'", "")
+        if model not in model_to_scores:
+          model_to_scores[model] = []
       elif line.startswith("You guessed"):
         accuracy = float(line.split()[4].replace("%", ""))
-        model_to_accuracy[model] = (model_to_accuracy.get(model) or []) + [accuracy]
+        model_to_scores[model] += [('accuracy', accuracy)]
+      elif "Precision" in line:
+        precision = float(line.strip().split()[2])
+        model_to_scores[model] += [('precision', precision)]
+      elif "Recall" in line:
+        recall = float(line.strip().split()[2])
+        model_to_scores[model] += [('recall', recall)]
+      elif "F1" in line:
+        f1 = float(line.strip().split()[2])
+        model_to_scores[model] += [('f1', f1)]
       elif "AUC" in line:
         auc = float(line.strip().split()[2])
-        model_to_auc[model] = (model_to_auc.get(model) or []) + [auc]
+        model_to_scores[model] += [('auc', auc)]
 
-#print model_to_accuracy
-#print model_to_auc
-
-for m in model_to_accuracy.keys():
-  model_to_accuracy[m] = sum(model_to_accuracy[m]) / len(model_to_accuracy[m])
-for m in model_to_auc.keys():
-  model_to_auc[m] = sum(model_to_auc[m]) / len(model_to_auc[m])
-
-print "Accuracy: %s" % model_to_accuracy
-print "AUC: %s" % model_to_auc
+for model, scores in model_to_scores.items():
+  new_scores = {}
+  for (s, v) in scores:
+    new_scores[s] = (new_scores.get(s) or []) + [v]
+  for s in new_scores.keys():
+    new_scores[s] = float(sum(new_scores[s])) / len(new_scores[s])
+  print "%s: %s" % (model, new_scores)
 

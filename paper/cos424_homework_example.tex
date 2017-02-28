@@ -39,18 +39,35 @@ Sentiment analysis is a common technique used by many companies to gain insight 
 
 The problem with analyzing ratings alone is that ratings are highly subjective. A product with mediocre ratings may still be desirable if, for example, the product has different sizes and many of the low ratings were given because the product did not fit the buyer. By contrast, the text associated with each review contains much more information than just a number. Certain words, such as 'amazing' and 'brilliant', are often strongly correlated with positive feedback. In addition to tokenized words, n-grams are often also of interest because the sentiments associated with certain phrases, such as 'not impressed', are different from those associated with each individual word in the phrase.
 
-In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods.
+In this paper, we model the reviews using a bag-of-words representation and evaluate the accuracy of four different classification methods: Bernoulli naive Bayes, multinomial naive Bayes, decision trees, and random forest. We extracted bigrams in addition to individual word tokens as our features and filtered out features with low Chi Squared score. To account for potential skew in the input data, we used $k$-fold cross validation to split the data into different permutations of train and test sets. The metrics we used for evaluation include percentage of correctly classified test labels, area under the ROC curve, and the F1 score.
+
+\section{Dataset}
+
+We used two datasets in this experiment. The first is the Sentiment Labelled Sentences Data Set [], which consists of 3,000 labelled sentences extracted from reviews from IMDB, Amazon, and Yelp. There are 500 positive and 500 negative sentences from each of the websites and no neutral sentences. This dataset was used for evaluating a classification method that works around the lack of instance labels by exploring instance-level similarity [].
+
+The second dataset used in this experiment is the Multi-Domain Sentient Dataset [], which contains 38548 Amazon biased reviews. The reviews were left by customers across many product categories, ranging from books and dvds, which have hundreds of thousands of reviews, to musical instruments, which have only a few hundred. The subset used in this project is comprised of 10,000 reviews randomly sampled from all categories. Prior work has used this dataset for a variety of purpose, ranging from sentiment classification [] to providing bounds for minimizing empirical risk [] to weighting linear classifiers with confidence [].
+
+The reasons for using this second dataset are twofold. First, it is much larger than the first one, which leads to a more general model and thus lower generalization error. Many commonly used text analysis techniques we explored did not have a significant impact on the accuracy when training on the smaller dataset. Second, the Amazon dataset comes with ratings (out of 5 stars) in addition to just positive or negative labels. This enables us to generalize the techniques used in this project to multi-class classification.
+
+[] https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences
+
+[] 'From Group to Individual Labels using Deep Features', Kotzias et. al,. KDD 2015
 
 [] http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
 
-In this work, we evaluate ten separate classification methods in the task of classifying newsgroup categories from posts. For this task, we have modeled the posts using a bag-of-words representation. We evaluated the performance of each of the classification methods with and without feature selection to quantify the benefits of feature selection on classifier performance and also on the computational speed of each of the classifiers.
+[] John Blitzer, Mark Dredze, Fernando Pereira. Biographies, Bollywood, Boom-boxes and Blenders: Domain Adaptation for Sentiment Classification. Association of Computational Linguistics (ACL), 2007
 
-\section{Related Work}
+[] John Blitzer, Koby Crammer, Alex Kulesza, Fernando Pereira, and Jenn Wortman. Learning Bounds for Domain Adaptation. Neural Information Processing Systems (NIPS), 2008.
 
-This data set is the canonical text multi class classification data set in the machine learning community, and has been used as a benchmark for text classification methods in many contexts. In particular, recent text classification methods have used the bag-of-words representation of this data set projected down to a set of latent \emph{topics}, where the projection is informed by the class label~\cite{zhu2009,lacoste2009}. Then, for testing, new posts also are considered in the context of the low-dimensional topic space instead of their bag-of-words representation. This suggests that feature selection may benefit the classification task.
+[] Mark Dredze, Koby Crammer, and Fernando Pereira. Confidence-Weighted Linear Classification. International Conference on Machine Learning (ICML), 2008.
+
+\section{Data processing}
+
+Raw word tokens are not suitable as features for several reasons. First, typos are common in user reviews. 
 
 
-\subsection{Data processing}
+We used the Python NLTK library to tokenize, lower case, remove stop words, lemmatize and stem each word using the Porter stemming methods. Further, we filtered words that occurred fewer than 5 times in the corpus.
+
 
 We downloaded the 20 Newsgroups data set on January 5th, 2015 from the UCI Machine Learning Archive~\footnote{{\tt http://kdd.ics.uci.edu/}}. We used the Python NLTK library to tokenize, convert to lower case, remove stop words, lemmatize, stem each word using the Porter stemming method, and filtering words that occurred fewer than $200$ times in the corpus~\cite{bird2009}. The resulting vocabulary contained $3,256$ words. We converted these words to the bag-of-words format as features of the posts; we used the newsgroup name that each document was posted to as its label. We considered the effect of feature selection on the classifiers, where feature selection is performed using a support vector machine with a linear kernel and $\ell_1$ penalty. After feature selection, we were left with $488$ dictionary words in the bag-of-words representation, which is $15\%$ of the original feature set size.
 

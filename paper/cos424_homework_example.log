@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  27 FEB 2017 22:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  27 FEB 2017 23:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -388,74 +388,61 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 31.
-
-
-LaTeX Warning: Citation `zhu2009' on page 1 undefined on input line 50.
-
-
-LaTeX Warning: Citation `lacoste2009' on page 1 undefined on input line 50.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
 
-LaTeX Warning: Citation `bird2009' on page 2 undefined on input line 55.
+LaTeX Warning: Citation `bird2009' on page 2 undefined on input line 72.
 
 
-LaTeX Warning: Citation `scikit-learn' on page 2 undefined on input line 59.
+LaTeX Warning: Citation `scikit-learn' on page 2 undefined on input line 76.
 
 [2] [3]
 
-LaTeX Warning: Citation `bishop2006pattern' on page 4 undefined on input line 9
-8.
+LaTeX Warning: Citation `bishop2006pattern' on page 4 undefined on input line 1
+15.
 
 <perceptron.png, id=82, 675.52374pt x 311.1625pt>
 File: perceptron.png Graphic file (type png)
  <use perceptron.png>
-Package pdftex.def Info: perceptron.png used on input line 100.
+Package pdftex.def Info: perceptron.png used on input line 117.
 (pdftex.def)             Requested size: 278.23827pt x 128.1662pt.
  [4 <./perceptron.png>]
-Overfull \hbox (39.48653pt too wide) in paragraph at lines 171--208
+Overfull \hbox (39.48653pt too wide) in paragraph at lines 188--225
  [][] 
  []
 
 [5]
 
-LaTeX Warning: Citation `zhu2009' on page 6 undefined on input line 224.
+LaTeX Warning: Citation `zhu2009' on page 6 undefined on input line 241.
 
 
-LaTeX Warning: Citation `lacoste2009' on page 6 undefined on input line 224.
+LaTeX Warning: Citation `lacoste2009' on page 6 undefined on input line 241.
 
 No file cos424_homework_example.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 231.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 248.
 [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 231.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 248.
  (./cos424_homework_example.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 231.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 231.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 248.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 248.
 Package rerunfilecheck Info: File `cos424_homework_example.out' has not changed
 .
-(rerunfilecheck)             Checksum: 3D4CF8A0D63DF7135554A82F6FF5EBAD;670.
+(rerunfilecheck)             Checksum: C8B1405459CF9D0C28FDF42A23BAFF03;651.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 231.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 248.
  ) 
 Here is how much of TeX's memory you used:
  6776 strings out of 493014
- 96397 string characters out of 6133351
+ 96387 string characters out of 6133351
  211231 words of memory out of 5000000
  10167 multiletter control sequences out of 15000+600000
  29638 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,12n,39p,1008b,333s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,12n,39p,1008b,400s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -472,7 +459,7 @@ ist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2016/texmf-dist/fon
 ts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/u
 rw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on cos424_homework_example.pdf (6 pages, 207577 bytes).
+Output written on cos424_homework_example.pdf (6 pages, 209480 bytes).
 PDF statistics:
  166 PDF objects out of 1000 (max. 8388607)
  139 compressed objects within 2 object streams
